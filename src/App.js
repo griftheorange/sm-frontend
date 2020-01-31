@@ -15,7 +15,7 @@ function App(props) {
   function formatDate(date){
     return date.getFullYear()+'-'+(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'-'+(date.getDate()+1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1)
   }
-  
+
   useEffect(() => {
     let now = new Date(Date.now())
     let past = new Date()
@@ -30,11 +30,13 @@ function App(props) {
   }, [])
 
   useEffect(() => {
+    props.setLoading(true)
     if(props.start && props.end && props.minMagnitude && props.maxMagnitude){
       fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${props.start}&endtime=${props.end}&minmagnitude=${props.minMagnitude}&maxmagnitude=${props.maxMagnitude}`)
       .then(r => r.json())
       .then((response) => {
         props.updateFeatures(response.features)
+        props.setLoading(false)
       })
       .catch(error => console.log(error))
     }
@@ -69,6 +71,12 @@ function mapDispatchToProps(dispatch){
         min: min,
         max: max
       })
+    },
+    setLoading: (value)=>{
+        dispatch({
+            type: "SET_LOADING",
+            value: value
+        })
     }
   }
 }

@@ -9,7 +9,7 @@ function Home(props) {
     return (
         <>
         <Weekly/>
-        <GuideBox/>
+        <GuideBox history={props.history}/>
         </>
     );
 }

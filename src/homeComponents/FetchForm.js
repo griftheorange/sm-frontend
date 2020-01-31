@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
+import { Dimmer, Loader } from 'semantic-ui-react'
 
 function handleDateChange(evt, setters, getters){
     if(evt.target.value){
@@ -34,11 +35,13 @@ function handleMagChange(evt, setters, getters){
 }
 
 function handleSubmit(getters, props){
+    props.setLoading(true)
     props.setDate(getters[0], getters[1])
-    props.setMag(getters[2], getters[3])
+    props.setMag(getters[2].toString(), getters[3].toString())
 }
 
 function handleDefault(props){
+    props.setLoading(true)
     let now = new Date(Date.now())
     let past = new Date()
     past.setDate(now.getDate() - 6)
@@ -58,6 +61,8 @@ function FetchForm(props) {
     const [minMag, setMin] = useState(props.minMag)
     const [maxMag, setMax] = useState(props.maxMag)
 
+    console.log(start, end, minMag, maxMag)
+
     useEffect(()=>{
         setStart(props.start)
         setEnd(props.end)
@@ -70,11 +75,12 @@ function FetchForm(props) {
 
     return (
         <div className="content-box form">
-            <span>Start Date YYYY-MM-DD</span>
+            {props.loading ? <Loader active></Loader> : null}
+            <span>Start Date</span>
             <div className="date">
                 <input name="start" onChange={(evt)=>{handleDateChange(evt, setters, getters)}} type="date" value={start ? start : ""}></input>
             </div>
-            <span>End Date YYYY-MM-DD</span>
+            <span>End Date</span>
             <div className="date">
                 <input name="end" onChange={(evt)=>{handleDateChange(evt, setters, getters)}} type="date" value={end ? end : ""}></input>
             </div>
@@ -97,7 +103,8 @@ function mapStateToProps(state){
         start: state.start,
         end: state.end,
         minMag: state.minMagnitude,
-        maxMag: state.maxMagnitude
+        maxMag: state.maxMagnitude,
+        loading: state.loading
     }
 }
 
@@ -115,6 +122,12 @@ function mapDispatchToProps(dispatch){
                 type: "SET_MAG_RANGE",
                 min: min,
                 max: max
+            })
+        },
+        setLoading: (value)=>{
+            dispatch({
+                type: "SET_LOADING",
+                value: value
             })
         }
     }

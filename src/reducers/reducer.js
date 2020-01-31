@@ -5,7 +5,8 @@ let initialState = {
     minMagnitude: null,
     maxMagnitude: null,
     scaleLineToLog: false,
-    scaleBubbleToLin: false
+    scaleBubbleToLin: false,
+    loading: false
 }
 
 export default function(state = initialState, action){
@@ -24,6 +25,9 @@ export default function(state = initialState, action){
             break;
         case "SET_MAG_RANGE":
             return {...state, minMagnitude: action.min, maxMagnitude: action.max}
+            break;
+        case "SET_LOADING":
+            return {...state, loading: action.value}
             break;
         default:
             return state

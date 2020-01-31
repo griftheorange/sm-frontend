@@ -39,6 +39,17 @@
     font-size: 0.9em;
   }
 
+  .globe-img-box.content-box.body{
+    height: 10em;
+    background-color: #ffffff;
+  }
+
+  .globe-img-box > img {
+    height: 90%;
+    width: auto;
+    margin: auto;
+  }
+
   .date {
     margin: auto;
     margin-top: 0.1em;
@@ -65,6 +76,15 @@
     flex: 1 1 auto;
     overflow: hidden;
   }
+
+  .content-box.body.guide {
+    font-size: 1.2em;
+  }
+
+  .content-box.body.guide > p {
+    margin: 0.5em
+  }
+
 
   .chart-holder {
       width: 100%;
