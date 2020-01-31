@@ -1,5 +1,9 @@
 let initialState = {
     features: [],
+    start: null,
+    end: null,
+    minMagnitude: null,
+    maxMagnitude: null,
     scaleLineToLog: false,
     scaleBubbleToLin: false
 }
@@ -14,6 +18,12 @@ export default function(state = initialState, action){
             break;
         case "TOGGLE_BUBBLE_SCALE":
             return {...state, scaleBubbleToLin: !state.scaleBubbleToLin}
+            break;
+        case "SET_DATE_RANGE":
+            return {...state, start: action.start, end: action.end}
+            break;
+        case "SET_MAG_RANGE":
+            return {...state, minMagnitude: action.min, maxMagnitude: action.max}
             break;
         default:
             return state
