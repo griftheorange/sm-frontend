@@ -64,19 +64,36 @@ function Globe(props) {
     }
 
     function handleFeatureClick(evt, feature){
+        console.log(feature.properties.place)
     }
 
     function genDatapoints(){
         if(props.features){
-            let path = getPath("orthographic", 1)
+            let path = getPath("orthographic", 3)
+            let shadowPath = getPath("orthographic")
 
             let circles = props.features.map((feature) => {
                 return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6)()
             })
 
-            return circles.map((circle, i) => {
+            let shadows = props.features.map((feature) => {
+                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6)()
+            })
+
+            let arr = []
+
+            let circlePaths = circles.map((circle, i) => {
                 return <path onClick={(evt) => {handleFeatureClick(evt, props.features[i])}} key={i} d={path(circle)} style={{fill: linearColor(Number(props.features[i].properties.mag)), opacity: `${1/(props.globeLoggishness/4)/2}`}}></path>
             })
+
+            shadows.forEach((shadow, i) => {
+                arr.push(<path key={(i+circles.length)+i} d={shadowPath(shadow)} style={{fill: "light-grey", opacity: `${(1/(props.globeLoggishness/4)/2)*0.1}`}}></path>)
+            })
+
+            circlePaths.forEach((path) => {arr.push(path)})
+
+            return arr
+
         }
     }
 

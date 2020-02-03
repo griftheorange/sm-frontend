@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -12,6 +12,8 @@ import {
 
 function App(props) {
 
+  let [timer, setTimer] = useState(null)
+
   function formatDate(date){
     return date.getFullYear()+'-'+(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'-'+(date.getDate()+1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1)
   }
@@ -19,11 +21,11 @@ function App(props) {
   useEffect(() => {
     let now = new Date(Date.now())
     let past = new Date()
-    past.setDate(now.getDate() - 6)
+    past.setDate(now.getDate() - 1)
     now.setDate(now.getDate() + 1)
     let end = formatDate(now)
     let start = formatDate(past)
-    let min = -10
+    let min = 3
     let max = 10
     props.setDateRange(start, end)
     props.setMagRange(min, max)
@@ -42,8 +44,24 @@ function App(props) {
     }
   }, [props.start, props.end, props.minMagnitude, props.maxMagnitude])
 
+  function startClock(){
+    let clock = setInterval(()=>{
+      props.incrementLambda()
+    }, 50)
+    setTimer(clock)
+  }
+
+  function stopClock(){
+    clearInterval(timer)
+    setTimer(null)
+  }
+
   useEffect(() => {
-    console.log(props.rotating)
+    if(props.rotating){
+      startClock()
+    } else {
+      stopClock()
+    }
   }, [props.rotating])
 
   return (
@@ -87,6 +105,17 @@ function mapDispatchToProps(dispatch){
             type: "SET_BUFFERED",
             value: value
         })
+    },
+    setRotation: (value)=>{
+      dispatch({
+        type: "SET_ROTATION",
+        value: value
+      })
+    },
+    incrementLambda: ()=>{
+      dispatch({
+        type: "INCREMENT_LAMBDA"
+      })
     }
   }
 }

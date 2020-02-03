@@ -9,8 +9,8 @@ let initialState = {
     loading: false,
     rotation: [108, 0, 23.5],
     bufferedGlobe: null,
-    globeLoggishness: 3,
-    rotating: false
+    globeLoggishness: 2,
+    rotating: true
 }
 
 export default function(state = initialState, action){
@@ -45,6 +45,13 @@ export default function(state = initialState, action){
         case "SET_ROTATING":
             return {...state, rotating: action.value}
             break;
+        case "INCREMENT_LAMBDA":
+            let newRot = [...state.rotation]
+            newRot[0] = Number(state.rotation[0] + 0.3)
+            if(newRot[0] >= 360){Number(newRot[0] = newRot[0]%360)}
+            if(newRot[0] < 0){Number(newRot[0] = 360+newRot[0])}
+            return {...state, rotation: newRot}
+            break
         default:
             return state
     }

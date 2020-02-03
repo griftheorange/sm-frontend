@@ -8,7 +8,9 @@ function GlobeForm(props) {
         switch(evt.target.name){
             case "lambda":
                 let rot = [...props.rotation]
-                rot[0] = evt.target.value
+                rot[0] = Number(evt.target.value)
+                if(rot[0] >= 360){rot[0] = Number(rot[0]%360)}
+                if(rot[0] < 0){rot[0] = 360+Number(rot[0])}
                 props.setRotation(rot)
                 break;
             default: 
@@ -34,7 +36,7 @@ function GlobeForm(props) {
                 <input onChange={handleLogChange} type="range" min="1" max="10" value={props.globeLoggishness}></input>
                 <span>10</span>
             </div>
-            <button onClick={toggleRotating} >Toggle Rotation</button>
+            <button onClick={toggleRotating}>{props.rotating ? "Turn Off Rotation" : "Turn On Rotation"}</button>
         </div>
     );
 }
