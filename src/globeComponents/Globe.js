@@ -12,10 +12,13 @@ function Globe(props) {
     const linearColor = d3.scaleLinear()
                             .range(["rgb(100,200,0,0.5)", "	rgb(150,0,0,0.5)"])
                             .domain([0, 5])
-    
+
+    let [timer, setTimer] = useState(null)
+
     useEffect(() => {
         setMounted(true)
     })
+
 
     function getPath(pathType, scalePercent = 0){
         let canvasHolder = document.querySelector(".canvas")
@@ -47,6 +50,7 @@ function Globe(props) {
     
     function genGeography(){
         if(mounted){
+
             let features = feature(topojson, topojson.objects.continent).features
             let path = getPath("orthographic")
 
@@ -59,16 +63,19 @@ function Globe(props) {
         }
     }
 
+    function handleFeatureClick(evt, feature){
+    }
+
     function genDatapoints(){
         if(props.features){
             let path = getPath("orthographic", 1)
 
             let circles = props.features.map((feature) => {
-                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(3, feature.properties.mag)/Math.PI))()
+                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6)()
             })
 
             return circles.map((circle, i) => {
-                return <path key={i} d={path(circle)} style={{fill: linearColor(Number(props.features[i].properties.mag)), opacity: "0.2"}}></path>
+                return <path onClick={(evt) => {handleFeatureClick(evt, props.features[i])}} key={i} d={path(circle)} style={{fill: linearColor(Number(props.features[i].properties.mag)), opacity: `${1/(props.globeLoggishness/4)/2}`}}></path>
             })
         }
     }
@@ -86,7 +93,9 @@ function Globe(props) {
 function mapStateToProps(state){
     return {
         rotation: state.rotation,
-        features: state.features
+        features: state.features,
+        globeLoggishness: state.globeLoggishness,
+        rotating: state.rotating
     }
 }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 function GlobeForm(props) {
 
-    function handleChange(evt){
+    function handleRotChange(evt){
         switch(evt.target.name){
             case "lambda":
                 let rot = [...props.rotation]
@@ -16,17 +16,34 @@ function GlobeForm(props) {
         }
     }
 
+    function handleLogChange(evt){
+        props.setLoggishness(Number(evt.target.value))
+    }
+
+    function toggleRotating(){
+        props.toggleRotation(!props.rotating)
+    }
+
     return (
         <div className="content-box form">
             <span>Lambda Rotation(°)</span>
-            <input onChange={handleChange} name="lambda" className="rotation" type="number" value={props.rotation[0]}></input>
+            <input onChange={handleRotChange} name="lambda" className="rotation" type="number" value={props.rotation[0]}></input>
+            <span>Magnitude Logishness</span>
+            <div className="scale-bar">
+                <span>1</span>
+                <input onChange={handleLogChange} type="range" min="1" max="10" value={props.globeLoggishness}></input>
+                <span>10</span>
+            </div>
+            <button onClick={toggleRotating} >Toggle Rotation</button>
         </div>
     );
 }
 
 function mapStateToProps(state){
     return {
-        rotation: state.rotation
+        rotation: state.rotation,
+        globeLoggishness: state.globeLoggishness,
+        rotating: state.rotating
     }
 }
 
@@ -36,6 +53,18 @@ function mapDispatchToProps(dispatch){
             dispatch({
                 type: "SET_ROTATION",
                 value: newRotation
+            })
+        },
+        setLoggishness: (newLog) => {
+            dispatch({
+                type: "SET_LOGGISHNESS",
+                value: newLog
+            })
+        },
+        toggleRotation: (value) => {
+            dispatch({
+                type: "SET_ROTATING",
+                value: value
             })
         }
     }

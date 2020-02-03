@@ -8,7 +8,9 @@ let initialState = {
     scaleBubbleToLin: false,
     loading: false,
     rotation: [108, 0, 23.5],
-    bufferedGlobe: null
+    bufferedGlobe: null,
+    globeLoggishness: 3,
+    rotating: false
 }
 
 export default function(state = initialState, action){
@@ -33,6 +35,15 @@ export default function(state = initialState, action){
             break;
         case "SET_ROTATION":
             return {...state, rotation: action.value}
+            break;
+        case "SET_BUFFERED":
+            return {...state, bufferedGlobe: action.value}
+            break;
+        case "SET_LOGGISHNESS":
+            return {...state, globeLoggishness: action.value}
+            break;
+        case "SET_ROTATING":
+            return {...state, rotating: action.value}
             break;
         default:
             return state

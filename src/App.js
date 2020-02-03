@@ -4,7 +4,6 @@ import './App.css';
 
 import { connect } from 'react-redux'
 
-import BufferGlobe from './BufferGlobe'
 import Navbar from './components/Navbar'
 import Body from './components/Body'
 import {
@@ -38,11 +37,14 @@ function App(props) {
       .then((response) => {
         props.updateFeatures(response.features)
         props.setLoading(false)
-        beginBuffer()
       })
       .catch(error => console.log(error))
     }
   }, [props.start, props.end, props.minMagnitude, props.maxMagnitude])
+
+  useEffect(() => {
+    console.log(props.rotating)
+  }, [props.rotating])
 
   return (
     <Router>
@@ -50,10 +52,6 @@ function App(props) {
       <Body/>
     </Router>
   );
-}
-
-async function beginBuffer(){
-
 }
 
 function mapDispatchToProps(dispatch){
@@ -81,6 +79,12 @@ function mapDispatchToProps(dispatch){
     setLoading: (value)=>{
         dispatch({
             type: "SET_LOADING",
+            value: value
+        })
+    },
+    setBuffered: (value)=>{
+        dispatch({
+            type: "SET_BUFFERED",
             value: value
         })
     }
