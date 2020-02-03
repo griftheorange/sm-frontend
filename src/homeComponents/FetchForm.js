@@ -35,13 +35,11 @@ function handleMagChange(evt, setters, getters){
 }
 
 function handleSubmit(getters, props){
-    props.setLoading(true)
     props.setDate(getters[0], getters[1])
     props.setMag(getters[2].toString(), getters[3].toString())
 }
 
 function handleDefault(props){
-    props.setLoading(true)
     let now = new Date(Date.now())
     let past = new Date()
     past.setDate(now.getDate() - 6)
@@ -60,8 +58,6 @@ function FetchForm(props) {
     const [end, setEnd] = useState(props.end)
     const [minMag, setMin] = useState(props.minMag)
     const [maxMag, setMax] = useState(props.maxMag)
-
-    console.log(start, end, minMag, maxMag)
 
     useEffect(()=>{
         setStart(props.start)
@@ -122,12 +118,6 @@ function mapDispatchToProps(dispatch){
                 type: "SET_MAG_RANGE",
                 min: min,
                 max: max
-            })
-        },
-        setLoading: (value)=>{
-            dispatch({
-                type: "SET_LOADING",
-                value: value
             })
         }
     }

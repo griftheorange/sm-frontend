@@ -6,7 +6,9 @@ let initialState = {
     maxMagnitude: null,
     scaleLineToLog: false,
     scaleBubbleToLin: false,
-    loading: false
+    loading: false,
+    rotation: [108, 0, 23.5],
+    bufferedGlobe: null
 }
 
 export default function(state = initialState, action){
@@ -28,6 +30,9 @@ export default function(state = initialState, action){
             break;
         case "SET_LOADING":
             return {...state, loading: action.value}
+            break;
+        case "SET_ROTATION":
+            return {...state, rotation: action.value}
             break;
         default:
             return state

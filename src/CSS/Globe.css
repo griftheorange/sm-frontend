@@ -1,0 +1,45 @@
+.globe {
+    width: 63em;
+    min-width: 63em;
+    height: 63em;
+    min-height: 63em;
+    margin-top: 1em;
+    margin-left: 0.8em;
+}
+
+.globe > .canvas {
+    width: 98%;
+    height: 98%;
+    margin-top: 1%;
+    margin-left: 1%;
+    background-color: #efeded;
+}
+
+.content-box.globe-guide {
+    height: 63em;
+    margin-top: 1em;
+    margin-left: 0.5em;
+    margin-right: 1em;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.content-box.globe-guide > .bottom {
+    width: 100%;
+}
+
+.content-box.globe-guide > .bottom > .forms {
+    width: 50%;
+    min-width: 15em;
+}
+
+.flexer {
+    display: flex;
+    width: 100%;
+}
+
+.rotation {
+    margin: auto;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
+}

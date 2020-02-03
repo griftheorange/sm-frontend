@@ -37,6 +37,8 @@
     background-color: #fafafa;
     text-align: center;
     font-size: 0.9em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em
   }
 
   .globe-img-box.content-box.body{
@@ -79,6 +81,7 @@
 
   .content-box.body.guide {
     font-size: 1.2em;
+    overflow: scroll;
   }
 
   .content-box.body.guide > p {
@@ -117,7 +120,7 @@
   }
 
   .overflow-handler > * {
-    min-width: 11.5em;
+   
     max-height: 100%;
     margin: 0.1em;
   }
