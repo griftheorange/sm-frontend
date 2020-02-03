@@ -23,7 +23,7 @@ function Globe(props) {
     function getPath(pathType, scalePercent = 0){
         let canvasHolder = document.querySelector(".canvas")
         let translateArr = [0, 0]
-        let scale = 300 * (scalePercent/100 + 1)
+        let scale = props.scale * (scalePercent/100 + 1)
 
         if(canvasHolder){
             let sizer = canvasHolder.getBoundingClientRect()
@@ -73,17 +73,17 @@ function Globe(props) {
             let shadowPath = getPath("orthographic")
 
             let circles = props.features.map((feature) => {
-                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6)()
+                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6+(1/props.globeLoggishness))()
             })
 
             let shadows = props.features.map((feature) => {
-                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6)()
+                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6+(1/props.globeLoggishness))()
             })
 
             let arr = []
 
             let circlePaths = circles.map((circle, i) => {
-                return <path onClick={(evt) => {handleFeatureClick(evt, props.features[i])}} key={i} d={path(circle)} style={{fill: linearColor(Number(props.features[i].properties.mag)), opacity: `${1/(props.globeLoggishness/4)/2}`}}></path>
+                return <path onClick={(evt) => {handleFeatureClick(evt, props.features[i])}} key={i} d={path(circle)} style={{fill: linearColor(Number(props.features[i].properties.mag)), opacity: `${1/(props.globeLoggishness/10)/2}`}}></path>
             })
 
             shadows.forEach((shadow, i) => {
@@ -97,8 +97,12 @@ function Globe(props) {
         }
     }
 
+    function handleScaleChange(evt){
+        props.changeScale(evt.deltaY)
+    }
+
     return (
-        <div className="content-box globe">
+        <div onWheel={handleScaleChange} className="content-box globe">
             <svg className="canvas">
                 {genGeography()}
                 {genDatapoints()}
@@ -112,8 +116,20 @@ function mapStateToProps(state){
         rotation: state.rotation,
         features: state.features,
         globeLoggishness: state.globeLoggishness,
-        rotating: state.rotating
+        rotating: state.rotating,
+        scale: state.scale
     }
 }
 
-export default connect(mapStateToProps)(Globe);
+function mapDispatchToProps(dispatch){
+    return {
+        changeScale: (value) => {
+            dispatch({
+                type: "MANIPULATE_SCALE",
+                value: value
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Globe);

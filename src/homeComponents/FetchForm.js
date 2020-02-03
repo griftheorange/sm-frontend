@@ -72,19 +72,19 @@ function FetchForm(props) {
     return (
         <div className="content-box form">
             {props.loading ? <Loader active></Loader> : null}
-            <span>Start Date</span>
+            <h3>Start Date</h3>
             <div className="date">
                 <input name="start" onChange={(evt)=>{handleDateChange(evt, setters, getters)}} type="date" value={start ? start : ""}></input>
             </div>
-            <span>End Date</span>
+            <h3>End Date</h3>
             <div className="date">
                 <input name="end" onChange={(evt)=>{handleDateChange(evt, setters, getters)}} type="date" value={end ? end : ""}></input>
             </div>
-            <span>Minimum Magnitude</span>
+            <h3>Minimum Magnitude</h3>
             <div className="mag">
                 <input name="min" onChange={(evt)=>{handleMagChange(evt, setters, getters)}} type="number" value={minMag ? minMag : ""}></input>
             </div>
-            <span>Maximum Magnitude</span>
+            <h3>Maximum Magnitude</h3>
             <div className="mag">
                 <input name="max" onChange={(evt)=>{handleMagChange(evt, setters, getters)}} type="number" value={maxMag ? maxMag : ""}></input>
             </div>

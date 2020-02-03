@@ -114,7 +114,7 @@ function mapDispatchToProps(dispatch){
     },
     incrementLambda: ()=>{
       dispatch({
-        type: "INCREMENT_LAMBDA"
+        type: "INCREMENT_ROTATION"
       })
     }
   }

@@ -5,6 +5,7 @@
     min-height: 63em;
     margin-top: 1em;
     margin-left: 0.8em;
+    overflow: scroll;
 }
 
 .globe > .canvas {
@@ -24,13 +25,22 @@
     overflow: hidden;
 }
 
+.bottom {
+    display: flex;
+}
+
 .content-box.globe-guide > .bottom {
     width: 100%;
+    height: 100%
 }
 
 .content-box.globe-guide > .bottom > .forms {
     width: 50%;
-    min-width: 15em;
+    min-width: 20em;
+}
+
+.forms > .content-box.header {
+    height: 5em;
 }
 
 .flexer {
@@ -44,7 +54,62 @@
     margin-bottom: 0.1em;
 }
 
+.forms {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.forms > * {
+    flex-grow: 1 auto;
+    height: 50%;
+}
+
+.form > h3 {
+    margin-bottom: 0.1em;
+    margin-top: 0.2em
+}
+
 .scale-bar {
     display: flex;
-    margin: auto
+    margin: auto;
+}
+
+.content-box.globe-guide > .bottom > .guide-segments {
+    display: flex;
+    flex-flow: column;
+    width: 50%;
+    height: 100%
+}
+
+.top > .content-box.header {
+    min-width: 45em
+}
+
+.guide-segments > .content-box.body.guide > h1 {
+    margin-top: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+.guide-segments > .content-box.body.guide > p {
+    margin-top: 0.5em;
+}
+
+.guide-segments > div {
+    height: 33%;
+}
+
+.guide-segments > .content-box.body {
+    font-size: 1.2em;
+    overflow-y: scroll;
+    min-width: 13em;
+}
+
+.guide-segments > .content-box.body > p {
+    margin-top: 0.5em;
+    margin-bottom: 0.3em
+}
+
+.guide-segments > .content-box.body > h1 {
+    margin-top: 0.3em;
 }

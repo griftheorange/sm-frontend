@@ -7,10 +7,12 @@ let initialState = {
     scaleLineToLog: false,
     scaleBubbleToLin: false,
     loading: false,
+    scale: 300,
     rotation: [108, 0, 23.5],
+    rotationSpeeds: [0.3, 0, 0],
     bufferedGlobe: null,
     globeLoggishness: 2,
-    rotating: true
+    rotating: false
 }
 
 export default function(state = initialState, action){
@@ -36,6 +38,9 @@ export default function(state = initialState, action){
         case "SET_ROTATION":
             return {...state, rotation: action.value}
             break;
+        case "SET_ROTATION_SPEEDS":
+            return {...state, rotationSpeeds: action.value}
+            break;
         case "SET_BUFFERED":
             return {...state, bufferedGlobe: action.value}
             break;
@@ -45,13 +50,26 @@ export default function(state = initialState, action){
         case "SET_ROTATING":
             return {...state, rotating: action.value}
             break;
-        case "INCREMENT_LAMBDA":
+        case "INCREMENT_ROTATION":
             let newRot = [...state.rotation]
-            newRot[0] = Number(state.rotation[0] + 0.3)
+            newRot[0] = Number(state.rotation[0] + state.rotationSpeeds[0])
             if(newRot[0] >= 360){Number(newRot[0] = newRot[0]%360)}
             if(newRot[0] < 0){Number(newRot[0] = 360+newRot[0])}
+            newRot[1] = Number(state.rotation[1] + state.rotationSpeeds[1])
+            if(newRot[1] >= 360){Number(newRot[1] = newRot[1]%360)}
+            if(newRot[1] < 0){Number(newRot[1] = 360+newRot[1])}
+            newRot[2] = Number(state.rotation[2] + state.rotationSpeeds[2])
+            if(newRot[2] >= 360){Number(newRot[2] = newRot[2]%360)}
+            if(newRot[2] < 0){Number(newRot[2] = 360+newRot[2])}
             return {...state, rotation: newRot}
             break
+        case "MANIPULATE_SCALE":
+            let newVal = state.scale
+            newVal = Number(state.scale) + Number(action.value)
+            if(newVal < 50){newVal = 50}
+            if(newVal > 500){newVal = 600}
+            return {...state, scale: newVal}
+            break;
         default:
             return state
     }
