@@ -29,7 +29,7 @@ function GlobeGuide(props) {
                         <QuakeCardList/>
                     </div>
                     <div className="content-box body barless">
-                        <QuakeDetails/>
+                        <QuakeDetails history={props.history}/>
                     </div>
                 </div>
             </div>

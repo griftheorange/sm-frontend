@@ -1,7 +1,7 @@
 .globe {
     width: 63em;
     min-width: 63em;
-    height: 63em;
+    height: 73em;
     min-height: 63em;
     margin-top: 1em;
     margin-left: 0.8em;
@@ -17,7 +17,7 @@
 }
 
 .content-box.globe-guide {
-    height: 63em;
+    height: 73em;
     margin-top: 1em;
     margin-left: 0.5em;
     margin-right: 1em;

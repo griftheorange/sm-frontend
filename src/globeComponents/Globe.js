@@ -63,8 +63,8 @@ function Globe(props) {
         }
     }
 
-    function handleFeatureClick(evt, feature){
-        console.log(feature.properties.place)
+    function handleFeatureClick(evt, quake){
+        props.setSelected(quake)
     }
 
     function genDatapoints(){
@@ -127,6 +127,12 @@ function mapDispatchToProps(dispatch){
             dispatch({
                 type: "MANIPULATE_SCALE",
                 value: value
+            })
+        },
+        setSelected: (quake) => {
+            dispatch({
+                type: "SET_SELECTED",
+                value: quake
             })
         }
     }

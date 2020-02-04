@@ -24,7 +24,12 @@ function QuakeDetails(props) {
         return `${hour}:${date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()}:${date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds()}${am ? 'AM' : 'PM'} - EST`
     }
 
+    function routeToQuakeShow(){
+        props.history.push(`/event/${props.quake.id}`)
+    }
+
     if(props.quake){
+        console.log(props.quake)
         let date = new Date(props.quake.properties.time)
         return (
             <Card fluid color={getColor(props.quake.properties.mag)} style={{height: "99%", overflowY: "scroll"}}>
@@ -32,7 +37,7 @@ function QuakeDetails(props) {
                     <Card.Header>{props.quake.properties.place}</Card.Header>
                     <Card.Meta>Magnitude: {props.quake.properties.mag}</Card.Meta>
                     <Button as='div' labelPosition='right' style={{marginTop: "0.4em"}}>
-                        <Button icon>
+                        <Button icon onClick={routeToQuakeShow}>
                             <Icon name='map'/>
                             View Page
                         </Button>

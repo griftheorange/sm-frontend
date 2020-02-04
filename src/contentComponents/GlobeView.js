@@ -9,7 +9,7 @@ function GlobeView(props) {
     return (
         <div className="flexer">
             <Globe/>
-            <GlobeGuide/>
+            <GlobeGuide history={props.history}/>
         </div>
     );
 }

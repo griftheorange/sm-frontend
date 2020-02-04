@@ -5,6 +5,7 @@ import About from '../contentComponents/About'
 import GlobeView from '../contentComponents/GlobeView'
 import Login from '../contentComponents/Login'
 import Profile from '../contentComponents/Profile'
+import QuakeShow from '../contentComponents/QuakeShow'
 
 import { Switch, Route } from 'react-router-dom'
 
@@ -17,6 +18,7 @@ function Body(props) {
                 <Route path="/globe" component={GlobeView}></Route>
                 <Route path="/login" component={Login}></Route>
                 <Route path="/profile" component={Profile}></Route>
+                <Route path="/event/:id" component={QuakeShow}></Route>
             </Switch>
         </div>
     );
