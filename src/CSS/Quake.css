@@ -1,0 +1,38 @@
+.content-box.show-page {
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.content-box.quake-show {
+    border: none;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+    display: flex;
+}
+
+.quake-show {
+    height: 99%;
+    margin: 0.5%;
+    display: flex;
+}
+
+.quake-show.left {
+    background-color: lightpink;
+    margin-right: 0;
+    width: 60%;
+    min-width: 50em;
+}
+
+.quake-show.right {
+    width: 40%;
+    min-width: 30em;
+}
+
+.bold-labels > p > label {
+    font-weight: bold;
+    font-size: 1.1em;
+}

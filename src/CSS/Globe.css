@@ -22,7 +22,7 @@
     margin-left: 0.5em;
     margin-right: 1em;
     flex-grow: 1;
-    overflow: hidden;
+    overflow-x: scroll;
 }
 
 .bottom {
@@ -83,7 +83,7 @@
 }
 
 .top > .content-box.header {
-    min-width: 45em
+    min-width: 55em
 }
 
 .guide-segments > .content-box.body.guide > h1 {
@@ -102,7 +102,7 @@
 .guide-segments > .content-box.body {
     font-size: 1.2em;
     overflow-y: scroll;
-    min-width: 13em;
+    min-width: 19.9em;
 }
 
 .guide-segments > .content-box.body > p {

@@ -25,11 +25,13 @@ function QuakeDetails(props) {
     }
 
     function routeToQuakeShow(){
+        if(props.detailFeature && !(props.detailFeature.id == props.quake.id)){
+            props.setDetailFeature(null)
+        }
         props.history.push(`/event/${props.quake.id}`)
     }
 
     if(props.quake){
-        console.log(props.quake)
         let date = new Date(props.quake.properties.time)
         return (
             <Card fluid color={getColor(props.quake.properties.mag)} style={{height: "99%", overflowY: "scroll"}}>
@@ -82,8 +84,20 @@ function getColor(mag){
 
 function mapStateToProps(state){
     return {
-        quake: state.selectedFeature
+        quake: state.selectedFeature,
+        detailFeature: state.detailFeature
     }
 }
 
-export default connect(mapStateToProps)(QuakeDetails);
+function mapDispatchToProps(dispatch){
+    return {
+        setDetailFeature: (quake) => {
+            dispatch({
+                type: "SET_DETAIL_FEATURE",
+                value: quake
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuakeDetails);

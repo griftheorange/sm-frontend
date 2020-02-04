@@ -1,5 +1,6 @@
 let initialState = {
     features: [],
+    detailFeature: null,
     selectedFeature: null,
     start: null,
     end: null,
@@ -73,6 +74,9 @@ export default function(state = initialState, action){
             break;
         case "SET_SELECTED":
             return {...state, selectedFeature: action.value}
+            break;
+        case "SET_DETAIL_FEATURE":
+            return {...state, detailFeature: action.value}
             break;
         default:
             return state

@@ -72,15 +72,15 @@ function GlobeForm(props) {
         <div className="content-box form">
             <h3>Lambda Rotation(°)</h3>
             <input onChange={handleRotChange} name="lambda" className="rotation" type="number" value={props.rotation[0]}></input>
-            <h4> Speed: °/sec</h4>
+            <h4> Speed: ~°/sec</h4>
             <input onChange={handleRotSpeedChange} name="lambda" className="rotation" type="number" value={props.rotationSpeeds[0]}></input>
             <h3>Phi Rotation(°)</h3>
             <input onChange={handleRotChange} name="phi" className="rotation" type="number" value={props.rotation[1]}></input>
-            <h4> Speed: °/sec</h4>
+            <h4> Speed: ~°/sec</h4>
             <input onChange={handleRotSpeedChange} name="phi" className="rotation" type="number" value={props.rotationSpeeds[1]}></input>
             <h3>Gamma Rotation(°)</h3>
             <input onChange={handleRotChange} name="gamma" className="rotation" type="number" value={props.rotation[2]}></input>
-            <h4> Speed: °/sec</h4>
+            <h4> Speed: ~°/sec</h4>
             <input onChange={handleRotSpeedChange} name="gamma" className="rotation" type="number" value={props.rotationSpeeds[2]}></input>
             <h3>Magnitude Logishness</h3>
             <div className="scale-bar">
