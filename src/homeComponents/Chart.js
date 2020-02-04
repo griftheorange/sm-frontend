@@ -149,6 +149,7 @@ function reduceFetchToLine(features, props){
         pointBackgroundColor: getLineColor,
         pointHoverBackgroundColor: getLineColor,
         pointBorderColor: "rgb(0,0,0,0)",
+        lineTension: 0,
         pointRadius: "2"
     }
 }

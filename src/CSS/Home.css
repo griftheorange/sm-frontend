@@ -94,6 +94,10 @@
     margin: 0.5em
   }
 
+  .content-box.body.barless::-webkit-scrollbar {
+    display: none;
+  }
+
 
   .chart-holder {
       width: 100%;

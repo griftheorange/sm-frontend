@@ -89,7 +89,7 @@ function FetchForm(props) {
                 <input name="max" onChange={(evt)=>{handleMagChange(evt, setters, getters)}} type="number" value={maxMag ? maxMag : ""}></input>
             </div>
             <button onClick={(evt)=>{handleSubmit(getters, props)}}>Submit</button>
-            <button onClick={(evt)=>{handleDefault(props)}}>Return to Default</button>
+            <button onClick={(evt)=>{handleDefault(props)}}>Restore Default</button>
         </div>
     );
 }

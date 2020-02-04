@@ -3,6 +3,7 @@ import React from 'react';
 import FetchForm from '../homeComponents/FetchForm'
 import GlobeForm from './GlobeForm'
 import QuakeCardList from './QuakeCardList'
+import QuakeDetails from './QuakeDetails'
 
 function GlobeGuide(props) {
     return (
@@ -27,8 +28,8 @@ function GlobeGuide(props) {
                     <div className="content-box body cards">
                         <QuakeCardList/>
                     </div>
-                    <div className="content-box body">
-                        
+                    <div className="content-box body barless">
+                        <QuakeDetails/>
                     </div>
                 </div>
             </div>

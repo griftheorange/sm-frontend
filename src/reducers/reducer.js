@@ -1,5 +1,6 @@
 let initialState = {
     features: [],
+    selectedFeature: null,
     start: null,
     end: null,
     minMagnitude: null,
@@ -69,6 +70,9 @@ export default function(state = initialState, action){
             if(newVal < 50){newVal = 50}
             if(newVal > 500){newVal = 600}
             return {...state, scale: newVal}
+            break;
+        case "SET_SELECTED":
+            return {...state, selectedFeature: action.value}
             break;
         default:
             return state
