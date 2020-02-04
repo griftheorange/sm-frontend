@@ -10,7 +10,7 @@ let initialState = {
     loading: false,
     scale: 300,
     rotation: [108, 0, 23.5],
-    rotationSpeeds: [0.3, 0, 0],
+    rotationSpeeds: [10, 0, 0],
     bufferedGlobe: null,
     globeLoggishness: 2,
     rotating: false
@@ -53,13 +53,13 @@ export default function(state = initialState, action){
             break;
         case "INCREMENT_ROTATION":
             let newRot = [...state.rotation]
-            newRot[0] = Number(state.rotation[0] + state.rotationSpeeds[0])
+            newRot[0] = Number(state.rotation[0] + state.rotationSpeeds[0]/25)
             if(newRot[0] >= 360){Number(newRot[0] = newRot[0]%360)}
             if(newRot[0] < 0){Number(newRot[0] = 360+newRot[0])}
-            newRot[1] = Number(state.rotation[1] + state.rotationSpeeds[1])
+            newRot[1] = Number(state.rotation[1] + state.rotationSpeeds[1]/25)
             if(newRot[1] >= 360){Number(newRot[1] = newRot[1]%360)}
             if(newRot[1] < 0){Number(newRot[1] = 360+newRot[1])}
-            newRot[2] = Number(state.rotation[2] + state.rotationSpeeds[2])
+            newRot[2] = Number(state.rotation[2] + state.rotationSpeeds[2]/25)
             if(newRot[2] >= 360){Number(newRot[2] = newRot[2]%360)}
             if(newRot[2] < 0){Number(newRot[2] = 360+newRot[2])}
             return {...state, rotation: newRot}
