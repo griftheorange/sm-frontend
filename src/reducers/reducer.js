@@ -1,5 +1,4 @@
 let initialState = {
-    loggedIn: null,
     features: [],
     detailFeature: null,
     selectedFeature: null,
@@ -16,13 +15,14 @@ let initialState = {
     bufferedGlobe: null,
     globeLoggishness: 2,
     rotating: false,
-    mapType: "orthographic"
+    mapType: "orthographic",
+    loggedIn: JSON.parse(window.localStorage.getItem("loggedIn"))
 }
 
 export default function(state = initialState, action){
     switch(action.type){
         case "SET_LOGGED_IN":
-            return {...state, features: action.token}
+            return {...state, loggedIn: action.token}
             break;
         case "UPDATE_FEATURES":
             return {...state, features: action.features}

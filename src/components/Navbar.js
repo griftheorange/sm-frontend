@@ -4,6 +4,32 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 function Navbar(props) {
+
+    function handleLogout(){
+        window.localStorage.clear()
+        props.setLoggedIn(null)
+    }
+
+    function getLoginLogout(){
+        if(props.loggedIn){
+            return (
+                <Link to="/login" onClick={handleLogout}>
+                    <div>
+                        Logout
+                    </div>
+                </Link>
+            )
+        } else {
+            return (
+                <Link to="/login">
+                    <div>
+                        Login
+                    </div>
+                </Link>
+            )
+        }
+    }
+
     return (
         <div className="navbar">
             <div className="logo">
@@ -25,12 +51,8 @@ function Navbar(props) {
                 GlobeView
             </div>
             </Link>
-            <Link to="/login">
-            <div>
-                Login
-            </div>
-            </Link>
-            {props.loggedIn ? <Link to="/profile"><div>Profile</div></Link> : null}
+            {window.localStorage.getItem("loggedIn") ? <Link to="/profile"><div>Profile</div></Link> : null}
+            {getLoginLogout()}
         </div>
     );
 }
@@ -41,4 +63,15 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(Navbar);
+function mapDispatchToProps(dispatch){
+    return {
+        setLoggedIn: (value) => {
+            dispatch({
+                type: "SET_LOGGED_IN",
+                token: value
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

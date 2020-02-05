@@ -16,6 +16,7 @@
     "react-scripts": "3.3.0",
     "redux": "^4.0.5",
     "semantic-ui-react": "^0.88.2",
+    "sweetalert2-react": "^0.8.3",
     "topojson-client": "^3.1.0"
   },
   "scripts": {
