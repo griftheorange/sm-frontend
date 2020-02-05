@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Container, Header, Segment, Divider } from 'semantic-ui-react'
 
 function Stats(props) {
-    console.log(props.quake)
     return (
         <div className="content-box body quake-show">
             <Segment style={{height: "100%", overflowY: "scroll"}}>
@@ -16,24 +15,24 @@ function Stats(props) {
                     <Divider></Divider>
                     <Container className="bold-labels" style={{marginTop: "0.2em"}}>
                     <p>
-                    <label><str>{"Magnitude: "}</str></label>
+                    <label>{"Magnitude: "}</label>
                     <span>{props.quake.properties.mag}</span>
                     </p>
                     <p>
-                    <label><str>{"Approximate Amplitude: "}</str></label>
-                    <span>{`~ ${Math.pow(10, props.quake.properties.mag).toFixed(2)} micrometers`}</span>
+                    <label>{"Approximate Amplitude(logA=M): "}</label>
+                    <span>{`~ ${Math.pow(10, props.quake.properties.mag).toFixed(2) > 100000 ? Math.pow(10, props.quake.properties.mag).toExponential(2): Math.pow(10, props.quake.properties.mag).toFixed(2)} micrometers`}</span>
                     </p>
                     <p>
-                    <label><str>{"Approximate Energy: "}</str></label>
-                    <span>{`~ ${Math.pow(10, (4.8 + 1.5*props.quake.properties.mag))} joules`}</span>
+                    <label>{"Approximate Energy(logE=()): "}</label>
+                    <span>{`~ ${Math.pow(10, (4.8 + 1.5*props.quake.properties.mag)).toExponential(2)} joules`}</span>
                     </p>
                     <p>
-                    <label><str>{"Felt Responses Reported: "}</str></label>
-                    <span>{props.quake.properties.mag}</span>
+                    <label>{"Felt Responses Reported: "}</label>
+                    <span>{props.quake.properties.felt ? props.quake.properties.felt: "N/A"}</span>
                     </p>
                     <p>
-                    <label><str>{"Maximum Reported Intensity: "}</str></label>
-                    <span>{props.quake.properties.mag}</span>
+                    <label>{"Maximum Reported Intensity: "}</label>
+                    <span>{props.quake.properties.cdi ? props.quake.properties.cdi : "N/A"}</span>
                     </p>
                     </Container>
                 </Segment>
