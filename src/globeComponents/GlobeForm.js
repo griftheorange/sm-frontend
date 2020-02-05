@@ -64,6 +64,10 @@ function GlobeForm(props) {
         props.toggleRotation(!props.rotating)
     }
 
+    function changeMapType(evt){
+        props.changeMapType(evt.target.value)
+    }
+
     return (
         <>
         <div className="content-box header">
@@ -89,6 +93,10 @@ function GlobeForm(props) {
                 <span>10</span>
             </div>
             <button onClick={toggleRotating}>{props.rotating ? "Turn Off Rotation" : "Turn On Rotation"}</button>
+            <select onChange={changeMapType} value={props.mapType}>
+                <option value="orthographic">Orthographic</option>
+                <option value="mercator">Mercator</option>
+            </select>
         </div>
         </>
     );
@@ -99,7 +107,8 @@ function mapStateToProps(state){
         rotation: state.rotation,
         rotationSpeeds: state.rotationSpeeds,
         globeLoggishness: state.globeLoggishness,
-        rotating: state.rotating
+        rotating: state.rotating,
+        mapType: state.mapType
     }
 }
 
@@ -126,6 +135,12 @@ function mapDispatchToProps(dispatch){
         toggleRotation: (value) => {
             dispatch({
                 type: "SET_ROTATING",
+                value: value
+            })
+        },
+        changeMapType: (value) => {
+            dispatch({
+                type: "CHANGE_MAP_TYPE",
                 value: value
             })
         }

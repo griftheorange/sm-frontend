@@ -39,7 +39,8 @@ function Globe(props) {
         } else if(pathType == "mercator"){
             projection = d3.geoMercator()
                 .translate(translateArr)
-                .scale(scale)
+                .scale(scale/2)
+                .rotate([props.rotation[0], 0, props.rotation[2]])
         }
 
         let path = d3.geoPath()
@@ -52,7 +53,7 @@ function Globe(props) {
         if(mounted){
 
             let features = feature(topojson, topojson.objects.continent).features
-            let path = getPath("orthographic")
+            let path = getPath(props.mapType)
 
             let paths = features.map((feature, i) => {
                 return <path key={i+1} d={path(feature.geometry)} style={{fill:"#d0d0d0"}}></path>
@@ -69,8 +70,8 @@ function Globe(props) {
 
     function genDatapoints(){
         if(props.features){
-            let path = getPath("orthographic", 3)
-            let shadowPath = getPath("orthographic")
+            let path = getPath(props.mapType, 3)
+            let shadowPath = getPath(props.mapType)
 
             let circles = props.features.map((feature) => {
                 return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6+(1/props.globeLoggishness))()
@@ -117,7 +118,8 @@ function mapStateToProps(state){
         features: state.features,
         globeLoggishness: state.globeLoggishness,
         rotating: state.rotating,
-        scale: state.scale
+        scale: state.scale,
+        mapType: state.mapType
     }
 }
 

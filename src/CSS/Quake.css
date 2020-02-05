@@ -21,10 +21,15 @@
 }
 
 .quake-show.left {
-    background-color: lightpink;
     margin-right: 0;
     width: 60%;
     min-width: 50em;
+    display: flex;
+    flex-flow: column;
+}
+
+.show-segs {
+    margin-top: 0;
 }
 
 .quake-show.right {
@@ -35,4 +40,20 @@
 .bold-labels > p > label {
     font-weight: bold;
     font-size: 1.1em;
+}
+
+.quake-show-header {
+    height: 4.5em;
+}
+
+.quake-show-map {
+    flex: 1 1 auto;
+}
+
+.quake-show-comments {
+    height: 19em
+}
+
+.spacer {
+    flex: 1 1 auto;
 }
