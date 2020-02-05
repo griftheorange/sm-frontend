@@ -44,7 +44,7 @@ function CountriesMap(props) {
             let path = getPath()
 
             let paths = features.map((feature, i) => {
-                return <path key={i} d={path(feature)} style={{fill:"#d0d0d0"}}></path>
+                return <path key={i} d={path(feature)} style={{fill:"#d0d0d0", stroke: "gray", strokeWidth: "0.4px"}}></path>
             })
 
             paths.push(

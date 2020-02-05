@@ -1,4 +1,5 @@
 let initialState = {
+    loggedIn: null,
     features: [],
     detailFeature: null,
     selectedFeature: null,
@@ -20,6 +21,9 @@ let initialState = {
 
 export default function(state = initialState, action){
     switch(action.type){
+        case "SET_LOGGED_IN":
+            return {...state, features: action.token}
+            break;
         case "UPDATE_FEATURES":
             return {...state, features: action.features}
             break;

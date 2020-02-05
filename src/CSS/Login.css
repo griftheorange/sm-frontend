@@ -1,0 +1,29 @@
+.login-form {
+    display: flex;
+    flex-flow: column;
+    width: 20%;
+    min-width: 20em;
+}
+
+.login-form > div.ui, button.ui {
+    margin: 1.3em
+}
+
+.login-form > button.ui {
+    width: 12em;
+    margin: auto;
+    margin-top: 1.3em;
+    margin-bottom: 1.3em;
+}
+
+.centerify {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+}
+
+.centerify > div {
+    margin: auto;
+    margin-top: 15%
+}
