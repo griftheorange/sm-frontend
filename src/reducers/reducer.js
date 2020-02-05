@@ -70,7 +70,7 @@ export default function(state = initialState, action){
             let newVal = state.scale
             newVal = Number(state.scale) + Number(action.value)
             if(newVal < 50){newVal = 50}
-            if(newVal > 600){newVal = 600}
+            if(newVal > 900){newVal = 900}
             return {...state, scale: newVal}
             break;
         case "SET_SELECTED":

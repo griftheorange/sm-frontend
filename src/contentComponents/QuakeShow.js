@@ -38,7 +38,7 @@ function QuakeShow(props) {
                         <Header as='h1'><a href={props.fetchedQuake.properties.url} target="_blank">USGS Reference Page</a></Header>
                     </Segment>
                     <Segment className="quake-show-map" style={{marginTop: "0.1em", marginBottom: "0.1em"}}>
-                        <CountriesMap></CountriesMap>
+                        <CountriesMap quake={props.fetchedQuake}></CountriesMap>
                     </Segment>
                     <Segment className="quake-show-comments" style={{marginTop: "0.1em", marginBottom: "0.1em"}}>
                         <Container style={{height: "100%", display: "flex", flexFlow: "column"}}>

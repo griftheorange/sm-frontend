@@ -57,3 +57,8 @@
 .spacer {
     flex: 1 1 auto;
 }
+
+.countries-canvas {
+    height: 100%;
+    width: 100%;
+}

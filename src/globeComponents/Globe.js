@@ -69,32 +69,34 @@ function Globe(props) {
     }
 
     function genDatapoints(){
-        if(props.features){
-            let path = getPath(props.mapType, 3)
-            let shadowPath = getPath(props.mapType)
-
-            let circles = props.features.map((feature) => {
-                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6+(1/props.globeLoggishness))()
-            })
-
-            let shadows = props.features.map((feature) => {
-                return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6+(1/props.globeLoggishness))()
-            })
-
-            let arr = []
-
-            let circlePaths = circles.map((circle, i) => {
-                return <path onClick={(evt) => {handleFeatureClick(evt, props.features[i])}} key={i} d={path(circle)} style={{fill: linearColor(Number(props.features[i].properties.mag)), opacity: `${1/(props.globeLoggishness/10)/2}`}}></path>
-            })
-
-            shadows.forEach((shadow, i) => {
-                arr.push(<path key={(i+circles.length)+i} d={shadowPath(shadow)} style={{fill: "light-grey", opacity: `${(1/(props.globeLoggishness/4)/2)*0.1}`}}></path>)
-            })
-
-            circlePaths.forEach((path) => {arr.push(path)})
-
-            return arr
-
+        if(mounted){
+            if(props.features){
+                let path = getPath(props.mapType, 3)
+                let shadowPath = getPath(props.mapType)
+    
+                let circles = props.features.map((feature) => {
+                    return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6+(1/props.globeLoggishness))()
+                })
+    
+                let shadows = props.features.map((feature) => {
+                    return d3.geoCircle().center([feature.geometry.coordinates[0],feature.geometry.coordinates[1]]).radius(Math.sqrt(Math.pow(props.globeLoggishness, feature.properties.mag)/Math.PI/Math.pow(2, props.globeLoggishness - 3))*0.6+(1/props.globeLoggishness))()
+                })
+    
+                let arr = []
+    
+                let circlePaths = circles.map((circle, i) => {
+                    return <path onClick={(evt) => {handleFeatureClick(evt, props.features[i])}} key={i} d={path(circle)} style={{fill: linearColor(Number(props.features[i].properties.mag)), opacity: `${1/(props.globeLoggishness/10)/2}`}}></path>
+                })
+    
+                shadows.forEach((shadow, i) => {
+                    arr.push(<path key={(i+circles.length)+i} d={shadowPath(shadow)} style={{fill: "light-grey", opacity: `${(1/(props.globeLoggishness/4)/2)*0.1}`}}></path>)
+                })
+    
+                circlePaths.forEach((path) => {arr.push(path)})
+    
+                return arr
+    
+            }
         }
     }
 
