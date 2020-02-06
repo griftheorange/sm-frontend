@@ -13,11 +13,9 @@ function Navbar(props) {
     function getLoginLogout(){
         if(props.loggedIn){
             return (
-                <Link to="/login" onClick={handleLogout}>
-                    <div>
-                        Logout
+                    <div onClick={handleLogout}>
+                        <a>Logout</a>
                     </div>
-                </Link>
             )
         } else {
             return (

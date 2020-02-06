@@ -18,12 +18,8 @@ function Login(props) {
         }
     }
 
-    function handleLogin(){
-
-    }
-
-    function handleCreate(){
-        fetch("http://localhost:3000/users", {
+    function handleClick(value){
+        fetch(`http://localhost:3000/${value}`, {
             method: "POST",
             headers: {
                 "content-type":"application/json",
@@ -55,9 +51,6 @@ function Login(props) {
         return str
     }
 
-    console.log(window.localStorage.getItem("loggedIn"))
-    console.log(props)
-
     return (
         <div className="centerify">
             {alerting ? <SweetAlert show={true} title="Invalid Input" text={getErrors()} onConfirm={() => {setAlerting(false)}}/> : null}
@@ -65,8 +58,8 @@ function Login(props) {
                 <Header as="h1">Login/Register</Header>
                 <Input onChange={handleChange} name="username" value={username} placeholder="Username"></Input>
                 <Input onChange={handleChange} name="password" value={password} placeholder="Password" type="password"></Input>
-                <Button onClick={handleLogin} >Login</Button>
-                <Button onClick={handleCreate} >Create Account</Button>
+                <Button onClick={() => handleClick("login")} >Login</Button>
+                <Button onClick={() => handleClick("users")} >Create Account</Button>
             </div>
         </div>
     );

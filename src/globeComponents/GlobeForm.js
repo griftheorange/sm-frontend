@@ -65,7 +65,21 @@ function GlobeForm(props) {
     }
 
     function changeMapType(evt){
-        props.changeMapType(evt.target.value)
+
+        let arr = [...props.rotation]
+
+        switch(evt.target.value){
+            case "orthographic":
+                arr[2] = 23.5
+                props.setRotation(arr)
+                props.changeMapType(evt.target.value)
+                break;
+            case "mercator":
+                arr[2] = 0
+                props.setRotation(arr)
+                props.changeMapType(evt.target.value)
+                break;
+        }
     }
 
     return (
