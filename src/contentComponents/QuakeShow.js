@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
-import { Loader, Segment, Header, Button, Icon, Container } from 'semantic-ui-react'
+import { Loader, Segment, Header, Button, Icon, Container, Input } from 'semantic-ui-react'
 import * as d3 from 'd3'
 
 import CountriesMap from '../quakeShowComponents/CountriesMap'
@@ -17,6 +17,7 @@ function QuakeShow(props) {
                             .domain([0, 5])
 
     let [bookmarked, setBookmarked] = useState(false)
+    let [commenting, setCommenting] = useState("")
 
     useEffect(() => {
         fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=${props.match.params.id}&format=geojson`)
@@ -60,11 +61,16 @@ function QuakeShow(props) {
         return `${hour}:${date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()}:${date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds()}${am ? 'AM' : 'PM'} - EST`
     }
 
+    function toggleCommenting(){
+        setCommenting("show")
+    }
+
     function getComments(){
         return (
-            <div>
-                Yeet
-            </div>
+            <>
+                {props.loggedIn ? <Button onClick={toggleCommenting} size="mini" compact style={{position: "absolute", left: "calc(100% - 5em)", marginRight: "0.5em"}}><Icon name="comment" style={{margin: 0}}></Icon></Button> : null}
+                <div>Yeet</div>
+            </>
         )
     }
 
@@ -103,15 +109,26 @@ function QuakeShow(props) {
         }
     }
 
+    function getCommentBox(){
+        return (
+            <div className={`comment-box ${commenting}`}>
+                <div className="pretty-comment-container">
+
+                </div>
+            </div>
+        )
+    }
+
     if(props.fetchedQuake){
         return (
+            <div style={{display: "flex", flexFlow: "column", overflowY: "hidden", position: "relative"}}>
             <div className="content-box show-page" style={{borderColor: linearColor(Number(props.fetchedQuake.properties.mag)), borderWidth: `${props.fetchedQuake.properties.mag}px`}}>
                 <div className="quake-show left">
                     <Segment className="quake-show-header" style={{marginTop: "0.1em", marginBottom: "0.1em"}}>
                         <Header as='h1'><a href={props.fetchedQuake.properties.url} target="_blank">USGS Reference Page</a></Header>
                     </Segment>
                     <Segment className="quake-show-map" style={{marginTop: "0.1em", marginBottom: "0.1em"}}>
-                        <CountriesMap quake={props.fetchedQuake}></CountriesMap>
+                        <CountriesMap centered={true} quake={props.fetchedQuake}></CountriesMap>
                     </Segment>
                     <Segment className="quake-show-comments" style={{marginTop: "0.1em", marginBottom: "0.1em"}}>
                         <Container style={{height: "100%", display: "flex", flexFlow: "column"}}>
@@ -130,6 +147,9 @@ function QuakeShow(props) {
                     <Stats/>
                 </div>
             </div>
+            {getCommentBox()}
+            </div>
+            
         )
     } else {
         return (

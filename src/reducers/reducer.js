@@ -16,6 +16,7 @@ let initialState = {
     globeLoggishness: 2,
     rotating: false,
     mapType: "orthographic",
+    hoveredEventId: null,
     loggedIn: JSON.parse(window.localStorage.getItem("loggedIn"))
 }
 
@@ -85,6 +86,9 @@ export default function(state = initialState, action){
             break;
         case "CHANGE_MAP_TYPE":
             return {...state, mapType: action.value}
+            break;
+        case "SET_HOVERED_EVENT":
+            return {...state, hoveredEventId: action.value}
             break;
         default:
             return state
