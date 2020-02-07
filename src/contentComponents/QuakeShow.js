@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 import { Loader, Segment, Header, Button, Icon, Container, Input } from 'semantic-ui-react'
 import * as d3 from 'd3'
+import SweetAlert from 'sweetalert2-react'
 
 import CountriesMap from '../quakeShowComponents/CountriesMap'
 import Stats from '../quakeShowComponents/Stats'
@@ -18,12 +19,24 @@ function QuakeShow(props) {
 
     let [bookmarked, setBookmarked] = useState(false)
     let [commenting, setCommenting] = useState("")
+    let [commentContent, setCommentContent] = useState("")
+    let [alerting, setAlerting] = useState(false)
+    let [comments, setComments] = useState([])
 
     useEffect(() => {
+        props.setDetailFeature(null)
         fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=${props.match.params.id}&format=geojson`)
         .then(r => r.json())
         .then((response) => {
             props.setDetailFeature(response)
+            fetch("http://localhost:3000/commented_quakes")
+            .then(r => r.json())
+            .then((commented_quakes) => {
+                let found = commented_quakes.find((quake) => {
+                    return quake.quake_db_id == response.id
+                })
+                console.log(found)
+            })
         })
         if(props.loggedIn){
             fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`)
@@ -39,6 +52,7 @@ function QuakeShow(props) {
                 }
             })
         }
+
     }, [])
 
     function formatDate(date){
@@ -109,19 +123,72 @@ function QuakeShow(props) {
         }
     }
 
-    function getCommentBox(){
-        return (
-            <div className={`comment-box ${commenting}`}>
-                <div className="pretty-comment-container">
+    function handleChange(evt){
+        setCommentContent(evt.target.value)
+    }
 
+    function handleComment(){
+        let date = new Date(Date.now())
+        fetch("http://localhost:3000/comments", {
+            method: "POST",
+            headers: {
+                'content-type':'application/json',
+                'accept':'application/json'
+            },
+            body: JSON.stringify({
+                user_id: props.loggedIn.user_id,
+                quake_db_id: props.fetchedQuake.id,
+                date_posted: `${formatDate(date)} - ${formatTime(date)}`,
+                content: commentContent
+            })
+        })
+        .then(r => r.json())
+        .then((response) => {
+            if(response.errors){
+                setAlerting(response.errors)
+            } else {
+                setCommenting(false)
+            }
+        })
+    }
+
+    function getCommentBox(){
+        if(props.loggedIn){
+            return (
+                <div className={`comment-box ${commenting}`}>
+                    <div className="pretty-comment-container">
+                        <Header as="h1" textAlign="left" style={{marginLeft: "0.5em"}}>Comment</Header>
+                        <Icon onClick={()=>{setCommenting("")}} name="window close outline" size="big" style={{position: "absolute", left: "calc(100% - 2em)", top: "0.5em"}}></Icon>
+                        <Input
+                            type="textarea"
+                            fluid
+                            focus
+                            style={{margin: "1em", height: "50%", fontSize: "1.5em", wordBreak: "break-all", overflowWrap: "break-word"}}
+                            value={commentContent}
+                            onChange={handleChange}></Input>
+                        <div style={{display: "flex", marginBottom: "0.5em"}}>
+                            <Button onClick={handleComment} style={{margin: "auto"}}>Submit</Button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
+    }
+
+    function getErrors(errors){
+        console.log(errors)
+        let strArr = []
+        for(let key in errors){
+            strArr.push(`${key.charAt(0).toUpperCase() + key.slice(1)} ${errors[key][0]}`)
+        }
+        let str = strArr.join(", ")
+        return str
     }
 
     if(props.fetchedQuake){
         return (
             <div style={{display: "flex", flexFlow: "column", overflowY: "hidden", position: "relative"}}>
+            {alerting ? <SweetAlert show={true} title="Invalid Input" text={getErrors(alerting)} onConfirm={() => {setAlerting(false)}}/> : null}
             <div className="content-box show-page" style={{borderColor: linearColor(Number(props.fetchedQuake.properties.mag)), borderWidth: `${props.fetchedQuake.properties.mag}px`}}>
                 <div className="quake-show left">
                     <Segment className="quake-show-header" style={{marginTop: "0.1em", marginBottom: "0.1em"}}>
@@ -162,7 +229,6 @@ function QuakeShow(props) {
 
 function mapStateToProps(state){
     return {
-        passedQuake: state.selectedFeature,
         fetchedQuake: state.detailFeature,
         loggedIn: state.loggedIn
     }

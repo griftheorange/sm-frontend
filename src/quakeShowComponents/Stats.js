@@ -158,7 +158,7 @@ function Stats(props) {
                     <label>{"Depth of Origin: "}</label>
                     <span>{`${props.quake.geometry.coordinates[2]}km`}</span>
                     </p>
-                    </Container>
+                    </Container> 
                 </Segment>
                 <Segment>
                     <Container>

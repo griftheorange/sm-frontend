@@ -70,7 +70,7 @@
     position: absolute;
     transition: top .5s;
     top: calc(100% - 20.5em);
-    background-color: rgb(200,0,0,0.3);
+    background-color: rgb(150,150,150,0.5);
 }
 
 .comment-box {
@@ -78,7 +78,7 @@
     width: 100%;
     top: 100%;
     position: absolute;
-    background-color: rgb(200,0,0,0.3);
+    background-color: rgb(150,150,150,0.3);
     transition: top .5s;
 }
 
@@ -87,5 +87,5 @@
     width: calc(100% - 2em);
     margin-left: 1em;
     margin-top: 1em;
-    background-color: #fdf5f5;
+    background-color: #fff;
 }
