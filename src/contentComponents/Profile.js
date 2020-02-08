@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Segment, Header } from 'semantic-ui-react'
+import { Segment, Header, Divider } from 'semantic-ui-react'
 import '../CSS/Profile.css'
 import CountriesMap from '../quakeShowComponents/CountriesMap';
 import UserCard from '../profileComponents/UserCard'
@@ -10,16 +10,35 @@ import { connect } from 'react-redux'
 function Profile(props) {
 
     let [user, setUser] = useState(null)
+    let [comments, setComments] = useState([])
+
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`)
-        .then(r => r.json())
-        .then((response) => {
-            if(!response.errors){
-                setUser(response)
-            }
-        })
-    }, [])
+        setUser(null)
+        setComments(null)
+        if(props.loggedIn){
+            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`, {
+                headers: {
+                    "Authorization":JSON.stringify(props.loggedIn)
+                }
+            })
+            .then(r => r.json())
+            .then((response) => {
+                if(!response.errors && !response.unauthorized ){
+                    setUser(response)
+                    setComments(response.comments)
+                } else if(response.unauthorized){
+                    window.localStorage.clear()
+                    props.setLoggedIn(null)
+                    props.history.push('/login')
+                } else {
+                    console.log("Errors in Profile, useEffecr()")
+                }
+            })
+        } else {
+            props.history.push('/login')
+        }
+    }, [props.loggedIn])
 
     function getBookmarkedQuakes(){
         if(user){
@@ -27,16 +46,42 @@ function Profile(props) {
         }
     }
 
+    function handleDelete(comment){
+        fetch(`http://localhost:3000/comments/${comment.id}`, {
+            method: "DELETE"
+        })
+        .then(r => r.json())
+        .then((response) => {
+            console.log(response)
+            let newComments = [...comments]
+            let foundIndex = 0
+            newComments.forEach((comment, i) => {
+                if(comment.id == response.id){foundIndex = i}
+            })
+            console.log(foundIndex)
+            console.log(newComments[foundIndex])
+            if(foundIndex == 0){
+                newComments = newComments.slice(1)
+            } else {
+                newComments = [...newComments.slice(0, foundIndex), ...newComments.slice(foundIndex+1)]
+            }
+            console.log(newComments)
+            setComments(newComments)
+        })
+    }
+
     function getUserBlock(){
         if(user){
             return (
                 <>
                 <UserCard user={user}></UserCard>
-                <Segment className="profile-containers" style={{overflowY: "scroll"}}>
+                <Segment className="profile-containers">
                     <BookmarkList history={props.history} bookmarks={user.bookmarks}></BookmarkList>
                 </Segment>
                 <Segment className="profile-containers">
-                    <CommentList></CommentList>
+                    <Header as="h1">Your Insights</Header>
+                    <Divider></Divider>
+                    <CommentList from_profile={true} comments={comments} handleDelete={handleDelete}></CommentList>
                 </Segment>
                 </>
             )
@@ -64,4 +109,15 @@ function mapStateToProps(state){
     }
 }
 
-export default connect(mapStateToProps)(Profile);
+function mapDispatchToProps(dispatch){
+    return {
+        setLoggedIn: (value) => {
+            dispatch({
+                type: "SET_LOGGED_IN",
+                value: value
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

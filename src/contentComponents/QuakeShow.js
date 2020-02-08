@@ -6,6 +6,7 @@ import SweetAlert from 'sweetalert2-react'
 
 import CountriesMap from '../quakeShowComponents/CountriesMap'
 import Stats from '../quakeShowComponents/Stats'
+import CommentList from '../profileComponents/CommentList'
 
 import '../CSS/Quake.css'
 
@@ -29,31 +30,75 @@ function QuakeShow(props) {
         .then(r => r.json())
         .then((response) => {
             props.setDetailFeature(response)
-            fetch("http://localhost:3000/commented_quakes")
+            fetch(`http://localhost:3000/commented_quakes/${response.id}`)
             .then(r => r.json())
-            .then((commented_quakes) => {
-                let found = commented_quakes.find((quake) => {
-                    return quake.quake_db_id == response.id
-                })
-                console.log(found)
+            .then((commented_quake) => {
+                if(commented_quake.comments){
+                    setComments(commented_quake.comments)
+                }
             })
         })
         if(props.loggedIn){
-            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`)
+            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`, {
+                headers: {
+                    "Authorization": JSON.stringify(props.loggedIn)
+                }
+            })
             .then(r => r.json())
             .then((response) => {
-                if(!response["errors"]){
+
+                // if(!response.errors && !response.unauthorized ){
+                //     setUser(response)
+                //     setComments(response.comments)
+                // } else if(response.unauthorized){
+                //     window.localStorage.clear()
+                //     props.setLoggedIn(null)
+                //     props.history.push('/login')
+                // } else {
+                //     console.log("Errors in Profile, useEffecr()")
+                // }
+
+                if(!response["errors"] && !response.unauthorized ){
                     let found = response.bookmarks.find((bookmark) => {
                         return bookmark.quake_db_id == props.match.params.id
                     })
                     if (found) {
                         setBookmarked(found)
                     }
+                } else if(response.unauthorized){
+                    window.localStorage.clear()
+                    props.setLoggedIn(null)
+                } else {
+                    console.log("Errors in QuakeShow.js, useEffect()")
                 }
             })
         }
 
-    }, [])
+    }, [props.loggedIn])
+
+    function handleDelete(comment){
+        fetch(`http://localhost:3000/comments/${comment.id}`, {
+            method: "DELETE"
+        })
+        .then(r => r.json())
+        .then((response) => {
+            console.log(response)
+            let newComments = [...comments]
+            let foundIndex = 0
+            newComments.forEach((comment, i) => {
+                if(comment.id == response.id){foundIndex = i}
+            })
+            console.log(foundIndex)
+            console.log(newComments[foundIndex])
+            if(foundIndex == 0){
+                newComments = newComments.slice(1)
+            } else {
+                newComments = [...newComments.slice(0, foundIndex), ...newComments.slice(foundIndex+1)]
+            }
+            console.log(newComments)
+            setComments(newComments)
+        })
+    }
 
     function formatDate(date){
         return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+(date.getDate()+1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1)+'/'+date.getFullYear()
@@ -83,7 +128,7 @@ function QuakeShow(props) {
         return (
             <>
                 {props.loggedIn ? <Button onClick={toggleCommenting} size="mini" compact style={{position: "absolute", left: "calc(100% - 5em)", marginRight: "0.5em"}}><Icon name="comment" style={{margin: 0}}></Icon></Button> : null}
-                <div>Yeet</div>
+                <CommentList comments={comments} handleDelete={handleDelete}/>
             </>
         )
     }
@@ -139,7 +184,9 @@ function QuakeShow(props) {
                 user_id: props.loggedIn.user_id,
                 quake_db_id: props.fetchedQuake.id,
                 date_posted: `${formatDate(date)} - ${formatTime(date)}`,
-                content: commentContent
+                content: commentContent,
+                quake_name: props.fetchedQuake.properties.place,
+                quake_mag: props.fetchedQuake.properties.mag
             })
         })
         .then(r => r.json())
@@ -147,7 +194,9 @@ function QuakeShow(props) {
             if(response.errors){
                 setAlerting(response.errors)
             } else {
+                setComments([...comments, response])
                 setCommenting(false)
+                setCommentContent("")
             }
         })
     }
@@ -176,7 +225,6 @@ function QuakeShow(props) {
     }
 
     function getErrors(errors){
-        console.log(errors)
         let strArr = []
         for(let key in errors){
             strArr.push(`${key.charAt(0).toUpperCase() + key.slice(1)} ${errors[key][0]}`)
@@ -204,7 +252,7 @@ function QuakeShow(props) {
                                 <div className="spacer"></div>
                                 {props.loggedIn ? <Button onClick={handleBookmarking} floated="right"><Icon name={bookmarked ? "bookmark" : "bookmark outline"} style={{margin: 0}}></Icon></Button> : null}
                             </Container>
-                            <Segment style={{flex: "1 1 auto"}}>
+                            <Segment style={{flex: "1 1 auto", overflowY: "scroll"}}>
                                 {getComments()}
                             </Segment>
                         </Container>
@@ -240,6 +288,12 @@ function mapDispatchToProps(dispatch){
             dispatch({
                 type: "SET_DETAIL_FEATURE",
                 value: quake
+            })
+        },
+        setLoggedIn: (value) => {
+            dispatch({
+                type: "SET_LOGGED_IN",
+                value: value
             })
         }
     }

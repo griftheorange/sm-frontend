@@ -31,5 +31,6 @@
 }
 
 .profile-containers {
-    height: 29%
+    height: 29%;
+    overflow-y: scroll;
 }
