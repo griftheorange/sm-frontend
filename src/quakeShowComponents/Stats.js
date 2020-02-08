@@ -163,7 +163,7 @@ function Stats(props) {
                 <Segment>
                     <Container>
                     <Header as="h2" style={{marginBottom: "0.1em"}}>Advisory</Header>
-                    <Header sub style={{marginTop: "0.1em", marginBottom: "0.5em"}}>Stats pulled from <a href="http://www.geo.mtu.edu/UPSeis/magnitude.html">UPSeis</a></Header>
+                    <Header sub style={{marginTop: "0.1em", marginBottom: "0.5em"}}>Stats pulled from <a target="_blank" href="http://www.geo.mtu.edu/UPSeis/magnitude.html">UPSeis</a></Header>
                     </Container>
                     <Divider></Divider>
                     <Container className="bold-labels" style={{marginTop: "0.2em"}}>

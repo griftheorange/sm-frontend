@@ -46,18 +46,6 @@ function QuakeShow(props) {
             })
             .then(r => r.json())
             .then((response) => {
-
-                // if(!response.errors && !response.unauthorized ){
-                //     setUser(response)
-                //     setComments(response.comments)
-                // } else if(response.unauthorized){
-                //     window.localStorage.clear()
-                //     props.setLoggedIn(null)
-                //     props.history.push('/login')
-                // } else {
-                //     console.log("Errors in Profile, useEffecr()")
-                // }
-
                 if(!response["errors"] && !response.unauthorized ){
                     let found = response.bookmarks.find((bookmark) => {
                         return bookmark.quake_db_id == props.match.params.id
@@ -237,7 +225,7 @@ function QuakeShow(props) {
         return (
             <div style={{display: "flex", flexFlow: "column", overflowY: "hidden", position: "relative"}}>
             {alerting ? <SweetAlert show={true} title="Invalid Input" text={getErrors(alerting)} onConfirm={() => {setAlerting(false)}}/> : null}
-            <div className="content-box show-page" style={{borderColor: linearColor(Number(props.fetchedQuake.properties.mag)), borderWidth: `${props.fetchedQuake.properties.mag}px`}}>
+            <div className="content-box show-page" style={{borderColor: linearColor(Number(props.fetchedQuake.properties.mag)), borderWidth: `10px`}}>
                 <div className="quake-show left">
                     <Segment className="quake-show-header" style={{marginTop: "0.1em", marginBottom: "0.1em"}}>
                         <Header as='h1'><a href={props.fetchedQuake.properties.url} target="_blank">USGS Reference Page</a></Header>
