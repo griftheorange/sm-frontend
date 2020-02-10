@@ -70,20 +70,16 @@ function QuakeShow(props) {
         })
         .then(r => r.json())
         .then((response) => {
-            console.log(response)
             let newComments = [...comments]
             let foundIndex = 0
             newComments.forEach((comment, i) => {
                 if(comment.id == response.id){foundIndex = i}
             })
-            console.log(foundIndex)
-            console.log(newComments[foundIndex])
             if(foundIndex == 0){
                 newComments = newComments.slice(1)
             } else {
                 newComments = [...newComments.slice(0, foundIndex), ...newComments.slice(foundIndex+1)]
             }
-            console.log(newComments)
             setComments(newComments)
         })
     }

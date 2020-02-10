@@ -39,7 +39,6 @@ function App(props) {
       fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=${props.start}&endtime=${props.end}&minmagnitude=${props.minMagnitude}&maxmagnitude=${props.maxMagnitude}`)
       .then(r => r.json())
       .then((response) => {
-        console.log(response)
         if(response.features.length > 12000){
           setAlerting({
             title: "Query response too large",

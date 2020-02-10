@@ -129,8 +129,6 @@ function CountriesMap(props) {
         }
     }
 
-    console.log(hoveredEvent)
-
     return (
         <svg className="countries-canvas" onWheel={handleScaleChange} onMouseMove={handleMouseMove}
             onMouseEnter={()=>{props.setHoveringMap(true)}}
