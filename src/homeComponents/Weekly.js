@@ -9,9 +9,9 @@ function Weekly(props) {
                 <h1>This Week in Seismology</h1>
             </div>
             <div className="content-box body">
-                <Chart type="line"></Chart>
-                <Chart type="hist"></Chart>
-                <Chart type="bubble"></Chart>
+                <Chart type="line" history={props.history}></Chart>
+                <Chart type="hist" history={props.history}></Chart>
+                <Chart type="bubble" history={props.history}></Chart>
             </div>
         </div>
     );

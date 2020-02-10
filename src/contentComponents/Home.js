@@ -8,7 +8,7 @@ import '../CSS/Home.css';
 function Home(props) {
     return (
         <>
-        <Weekly/>
+        <Weekly history={props.history}/>
         <GuideBox history={props.history}/>
         </>
     );

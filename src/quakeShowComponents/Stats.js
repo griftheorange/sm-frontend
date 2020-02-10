@@ -68,7 +68,7 @@ function Stats(props) {
     }
 
     function formatDate(date){
-        return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+(date.getDate()+1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1)+'/'+date.getFullYear()
+        return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+(date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())+'/'+date.getFullYear()
     }
 
     function formatTime(date){

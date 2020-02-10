@@ -14,7 +14,7 @@ function GuideBox(props) {
             </div>
             <div className="content-box body guide">
                 <p>Hi! Welcom to SeisMix, a website dedicated to bringing you the most up-to-date information on global seismic activity.</p>
-                <p>Our application supports query dates from 1970 to the current date, and we supply a variety of other parameters to adjust your searches. Note we can only query 20000 events at a time rn, and approximately 2-3000 occur every week, so please take this into consideration before submitting your search.</p>
+                <p>Our application allows for queries of the USGS api, accepting dates from 1970 to the current date, and we supply a variety of other parameters to adjust your searches. Note we can only query 12000 events at a time, and approximately 2-3000 occur every week. Please take this into consideration before submitting your search.</p>
                 <p>We also support a globeView function to render seismic events at the point of their origin, for real-time world mapping of seismic activity accross the year, feel free to play around with it!</p>
             </div>
             <FetchForm/>

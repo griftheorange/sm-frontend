@@ -11,12 +11,16 @@ const linear = d3.scaleLinear()
 const translator = 60
 
 function formatDate(date){
-    return date.getFullYear()+'-'+(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'-'+date.getDate()
+    return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+(date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())+'/'+date.getFullYear()
 }
 
 function formatBinDate(date){
-    return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+    return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+(date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
 }
+
+function formatSlugDate(date){
+    return date.getFullYear()+'-'+(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'-'+(date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+  }
 
 function Chart(props) {
     return (
@@ -53,6 +57,13 @@ function mapDispatchToProps(dispatch){
             dispatch({
                 type: "TOGGLE_BUBBLE_SCALE"
             })
+        },
+        setDateRange: (start, end) => {
+            dispatch({
+                type: "SET_DATE_RANGE",
+                start: start,
+                end: end
+            })
         }
     }
 }
@@ -76,8 +87,9 @@ function genLine(props){
                     datasets: [lineArr]
                 }}
                 getElementAtEvent={(elems) => {
-                    console.log(props)
-                    console.log(elems)
+                    if(elems[0]){
+                        props.history.push(`/event/${props.features[elems[0]._index].id}`)
+                    }
                 }}
                 options={{
                     responsive: true,
@@ -173,9 +185,27 @@ function genHist(props){
                     datasets: [barArr[1]]
                 }}
                 getElementAtEvent={(elems) => {
-                    console.log(elems)
+                    if(elems[0]){
+                        let start = barArr[1].startEnds[elems[0]._index].start
+                        let end = barArr[1].startEnds[elems[0]._index].end
+                        let date = end
+                        if(start == end){
+                            date = new Date(end)
+                            date.setDate(date.getDate() + 2)
+                            date = formatSlugDate(date)
+                        }
+                        props.setDateRange(start, date)
+                        props.history.push('/globe')
+                    }
                 }}
                 options={{
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
                     responsive: true,
                     maintainAspectRatio: false
                 }}
@@ -189,7 +219,7 @@ function genHist(props){
                 <br></br>
                 <p>Plots frequency of seismic event in half-day bins, starting from oldest quake to one week following.</p>
                 <br></br>
-                <p>Due to the way the bins are made, the final bin may be somewhat lower than the true value. It is usually in the process of being filled.</p>
+                <p>Note, the final bin may be somewhat lower than its true value. It is usually in the process of being filled when the graphs are rendered.</p>
                 <br></br>
                 <p>Frequency may correspond interestingly to the other charts, see if you notice anything exciting!</p>
             </div>
@@ -199,23 +229,29 @@ function genHist(props){
 }
 
 function reduceFetchToBar(features){
-    const binsPerDay = 2
+    //bin number calculated using Sturges Rule
+    const totalBins = 1+(3.322*Math.log10(features.length))
     let sortedFeats = [...features]
     sortedFeats.sort((a, b) => {
         return a.properties.time - b.properties.time
     })
     let data = []
     let labels = []
+    let startEnds = []
     if(sortedFeats[0]){
         let min = sortedFeats[0].properties.time
-        for(let i = 0; i < 7*binsPerDay; i++){
+        let max = sortedFeats[sortedFeats.length - 1].properties.time
+        let interval = max-min
+        for(let i = 0; i < totalBins; i++){
             data.push([])
         }
-        for(let i = 0; i < 7*binsPerDay; i++){
-            labels.push(getDateRange(min, i, binsPerDay))
+        for(let i = 0; i < totalBins; i++){
+            labels.push(getDateRange(min, max, i, totalBins))
+            startEnds.push(getStartEnds(min, max, i, totalBins))
         }
         features.forEach((feature, i) => {
-            let day = Math.floor((feature.properties.time-min)/(86400000/binsPerDay))
+            let day = Math.floor((feature.properties.time-min)/(interval/totalBins))
+            if (day == totalBins){day = totalBins-1 }
             data[day].push(feature)
         })
     }
@@ -233,7 +269,8 @@ function reduceFetchToBar(features){
                 return getBarColor(context, linearBar)
             },
             hoverBackgroundColor: "rgb(200,200,200, 0.5)",
-            data: data
+            data: data,
+            startEnds: startEnds
         }])
 }
 
@@ -241,11 +278,21 @@ function getBarColor(context, linearBar){
     return linearBar(context.dataset.data[context.dataIndex])
 }
 
-function getDateRange(min, index, binsPerDay){
-    let interval = 86400000/binsPerDay
+function getDateRange(min, max, index, totalBins){
+    let interval = (max-min)/totalBins
     let startBin = new Date(min + index*interval)
     let endBin = new Date(min + (index+1)*interval)
     return `${formatBinDate(startBin)} - ${formatBinDate(endBin)}`
+}
+
+function getStartEnds(min, max, index, totalBins){
+    let interval = (max-min)/totalBins
+    let startBin = new Date(min + index*interval)
+    let endBin = new Date(min + (index+1)*interval)
+    return {
+        start: formatSlugDate(startBin),
+        end: formatSlugDate(endBin)
+    }
 }
 
 function genBubble(props){
@@ -259,7 +306,9 @@ function genBubble(props){
                 datasets: bubbleArr
             }}
             getElementAtEvent={(elems) => {
-                console.log(elems)
+                if(elems[0]){
+                    props.history.push(`/event/${bubbleArr[elems[0]._datasetIndex].data[elems[0]._index].id}`)
+                }
             }}
             options={{
                 responsive: true,
@@ -305,7 +354,7 @@ function genBubble(props){
             <div className="overflow-handler">
                 <h3>SE Mag, Depth vs Time</h3>
                 <br></br>
-                <p>Occurrences with depth of origin(km) on the y, time on the x, and magnitude to bubble size.</p>
+                <p>Occurrences with depth of origin(km) on the y, time on the x, and magnitude corresponding to bubble size.</p>
                 <br></br>
                 <p>Defaults to scaling circle area to relative force(mag8 will have 10x the area of a mag4).</p>
                 <br></br>
@@ -345,7 +394,8 @@ function reduceFetchToBubble(features, props){
             x: quake.properties.time,
             y: quake.geometry.coordinates[2],
             r: props.scaleBubbleToLin ? quake.properties.mag*2.5 : Math.sqrt(Math.pow(10, quake.properties.mag)/Math.PI)/translator,
-            location: quake.properties.place
+            location: quake.properties.place,
+            id: quake.id
         })
     })
     let splitData = digestMagnitudeBins(data, features)

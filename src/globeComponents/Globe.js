@@ -5,6 +5,7 @@ import topojson from '../resources/world-continents'
 import { connect } from 'react-redux'
 import { feature } from 'topojson-client'
 import * as d3 from 'd3'
+import { stat } from 'fs';
 
 function Globe(props) {
     
@@ -108,7 +109,7 @@ function Globe(props) {
         <div onWheel={handleScaleChange} className="content-box globe">
             <svg className="canvas">
                 {genGeography()}
-                {genDatapoints()}
+                {!props.loading ? genDatapoints() : null }
             </svg>
         </div>
     );
@@ -121,7 +122,8 @@ function mapStateToProps(state){
         globeLoggishness: state.globeLoggishness,
         rotating: state.rotating,
         scale: state.scale,
-        mapType: state.mapType
+        mapType: state.mapType,
+        loading: state.loading
     }
 }
 
