@@ -89,3 +89,29 @@
     margin-top: 1em;
     background-color: #fff;
 }
+
+.info-box {
+    opacity: 0;
+    fill: lightgrey
+}
+
+.info-box.show {
+    opacity: 0.8;
+    transition: opacity 0.8s;
+}
+
+.text {
+    opacity: 0;
+    fill: black;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.text.smaller {
+    font-weight: normal;
+}
+
+.text.show {
+    opacity: 0.8;
+    transition: opacity 0.8s;
+}

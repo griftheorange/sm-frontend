@@ -26,7 +26,11 @@ function CommentList(props) {
                             {props.from_profile ? <Header textAlign="left" sub style={{marginTop: "0.1em"}}><Link onClick={() => {props.setHoveredEvent(null)}} onMouseLeave={handleMouseLeave} onMouseEnter={() => {handleMouseEnter(comment)}} to={`/event/${comment.comment_quake}`}>{`${comment.quake_name} - Mag: ${comment.quake_mag}`}</Link></Header> : null}
                             <Segment>
                                 <p style={{margin: 0, width: "calc(100% - 4em)"}}>{comment.content}</p>
-                                {(props.loggedIn && props.loggedIn.user_id == comment.user_id) ? <Button onClick={() => {props.handleDelete(comment)}} size="mini" style={{position: "absolute", left: "calc(100% - 5em)", top: "1em"}}><Icon name="trash" style={{margin: 0}}></Icon></Button> : null}
+                                {(props.loggedIn && props.loggedIn.user_id == comment.user_id) ? <Button onClick={() => {
+                                    if (window.confirm('Are you sure you wish to delete this comment?')){
+                                        props.handleDelete(comment)
+                                    }
+                                }} size="mini" style={{position: "absolute", left: "calc(100% - 5em)", top: "1em"}}><Icon name="trash" style={{margin: 0}}></Icon></Button> : null}
                             </Segment>
                         </Card.Content>
                     </Container>

@@ -8,9 +8,12 @@ import { connect } from 'react-redux'
 function CountriesMap(props) {
 
     let [mounted, setMounted] = useState(false)
+    let [x, setX] = useState(0)
+    let [y, setY] = useState(0)
 
     useEffect(() => {
-        setMounted(true)
+        let svg = document.querySelector(".countries-canvas")
+        setMounted(svg.getBoundingClientRect())
     }, [])
 
     function handleScaleChange(evt){
@@ -96,9 +99,50 @@ function CountriesMap(props) {
         }
     }
 
+    function handleMouseMove(evt){
+        if(props.quakes){
+            let mouseX = evt.clientX - mounted.x
+            let mouseY = evt.clientY - mounted.y
+            if(props.hoveredEventId && props.hoveringMap){
+                setY(mouseY)
+                if(mouseX > mounted.width/2){
+                    setX(mouseX-220)
+                } else {
+                    setX(mouseX+3)
+                }
+            }
+        }
+    }
+    let hoveredEvent = null
+    if(props.quakes){
+        hoveredEvent = props.quakes.find((quake) => {
+            return quake.quake_db_id == props.hoveredEventId
+        })
+    }
+
+    function formatLocation(loc){
+        let arr = loc.split(/\sof\s/)
+        if(arr.length > 1){
+            return arr[1]
+        } else {
+            return loc
+        }
+    }
+
+    console.log(hoveredEvent)
+
     return (
-        <svg className="countries-canvas" onWheel={handleScaleChange}>
+        <svg className="countries-canvas" onWheel={handleScaleChange} onMouseMove={handleMouseMove}
+            onMouseEnter={()=>{props.setHoveringMap(true)}}
+            onMouseLeave={()=>{props.setHoveringMap(false)}}>
             {genGeography()}
+            <g>
+                <rect className={props.hoveredEventId && props.hoveringMap ? "info-box show" : "info-box"} width="220" height="90" x={x} y={y} style={{transform: "translate(0.3em, 1.6em)"}}/>
+                <text className={props.hoveredEventId && props.hoveringMap ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 4em)"}}>Place: {hoveredEvent ? formatLocation(hoveredEvent.place) : null}</text>
+                <text className={props.hoveredEventId && props.hoveringMap ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 5.4em)"}}>Mag: {hoveredEvent ? hoveredEvent.mag : null}</text>
+                <text className={props.hoveredEventId && props.hoveringMap ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 6.8em)"}}>Date/Time:</text>
+                <text className={props.hoveredEventId && props.hoveringMap ? "text smaller show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 8.2em)"}}>{hoveredEvent ? hoveredEvent.dateAndTime : null}</text>
+            </g>
         </svg>
     );
 }
@@ -106,7 +150,8 @@ function CountriesMap(props) {
 function mapStateToProps(state){
     return {
         scale: state.scale,
-        hoveredEventId: state.hoveredEventId
+        hoveredEventId: state.hoveredEventId,
+        hoveringMap: state.hoveringMap
     }
 }
 
@@ -121,6 +166,12 @@ function mapDispatchToProps(dispatch){
         setHoveredEvent: (value) => {
             dispatch({
                 type: "SET_HOVERED_EVENT",
+                value: value
+            })
+        },
+        setHoveringMap: (value) => {
+            dispatch({
+                type: "SET_HOVERING_MAP",
                 value: value
             })
         }

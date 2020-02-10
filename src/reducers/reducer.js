@@ -17,6 +17,7 @@ let initialState = {
     rotating: false,
     mapType: "orthographic",
     hoveredEventId: null,
+    hoveringMap: false,
     loggedIn: JSON.parse(window.localStorage.getItem("loggedIn"))
 }
 
@@ -89,6 +90,9 @@ export default function(state = initialState, action){
             break;
         case "SET_HOVERED_EVENT":
             return {...state, hoveredEventId: action.value}
+            break;
+        case "SET_HOVERING_MAP":
+            return {...state, hoveringMap: action.value}
             break;
         default:
             return state
