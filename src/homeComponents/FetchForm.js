@@ -46,7 +46,7 @@ function handleDefault(props){
     now.setDate(now.getDate() + 1)
     let end = formatDate(now)
     let start = formatDate(past)
-    let min = -10
+    let min = 3
     let max = 10
     props.setDate(start, end)
     props.setMag(min, max)
