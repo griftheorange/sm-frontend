@@ -52,7 +52,6 @@ function Profile(props) {
         })
         .then(r => r.json())
         .then((response) => {
-            console.log(response)
             let newComments = [...comments]
             let foundIndex = 0
             newComments.forEach((comment, i) => {
