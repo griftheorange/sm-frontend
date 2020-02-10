@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Segment, Header, Container, Button, Icon, Label } from 'semantic-ui-react' 
 import { connect } from 'react-redux'
 
@@ -7,6 +7,33 @@ function QuakeDetails(props) {
     function formatDate(date){
         return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+(date.getDate()+1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1)+'/'+date.getFullYear()
     }
+
+    let [usersBookmarks, setUsersBookmarks] = useState([])
+
+    useEffect(() => {
+        if(props.loggedIn){
+            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`, {
+                headers: {
+                    "Authorization": JSON.stringify(props.loggedIn)
+                }
+            })
+            .then(r => r.json())
+            .then((response) => {
+                if(response.unauthorized){
+                    window.localStorage.clear()
+                    props.setLoggedIn(null)
+                } else {
+                    let mappedBookmarks = response.bookmarks.map((bookmark) => {
+                        return {
+                            id: bookmark.id,
+                            quake_id: bookmark.quake_db_id
+                        }
+                    })
+                    setUsersBookmarks(mappedBookmarks)
+                }
+            })
+        }
+    }, [props.loggedIn])
 
     function formatTime(date){
         let hour = null
@@ -25,10 +52,86 @@ function QuakeDetails(props) {
     }
 
     function routeToQuakeShow(){
+        //Detail Feature is the fetched quake for the current quake show page, quake is the selected quake on the globeview page
+        //These steps are kept separate so that a different quake can be held in view on the globe page and maintained on the Quake show page
+        //Prevents re-fetch if visiting the same page again
         if(props.detailFeature && !(props.detailFeature.id == props.quake.id)){
             props.setDetailFeature(null)
         }
         props.history.push(`/event/${props.quake.id}`)
+    }
+
+    function getBookmarkButton(){
+        if(props.loggedIn && usersBookmarks){
+            let bookmark_db_ids = usersBookmarks.map((bookmark) => {
+                return bookmark.quake_id
+            })
+            return (
+                <Button
+                    onClick={handleBookmarking}>
+                    <Icon 
+                        name={bookmark_db_ids.includes(props.quake.id) ? "bookmark" : "bookmark outline"} 
+                        style={{margin: 0}}></Icon>
+                </Button>
+            )
+        }
+    }
+
+    function handleBookmarking(){
+        let bookmark_db_ids = usersBookmarks.map((bookmark) => {
+            return bookmark.quake_id
+        })
+        if(!bookmark_db_ids.includes(props.quake.id)){
+            fetch(`http://localhost:3000/bookmarks`, {
+                method: 'POST',
+                headers: {
+                    'content-type':'application/json',
+                    'accept':'application/json'
+                },
+                body: JSON.stringify({
+                    quake_db_id: props.quake.id,
+                    user_id: props.loggedIn.user_id,
+                    place: props.quake.properties.place,
+                    dateAndTime: `${formatDate(new Date(props.quake.properties.time))} - ${formatTime(new Date(props.quake.properties.time))}`,
+                    mag: props.quake.properties.mag,
+                    lat: props.quake.geometry.coordinates[1],
+                    long: props.quake.geometry.coordinates[0]
+                })
+            }).then(r => r.json())
+            .then((response) => {
+                if(!response["errors"]){
+                    setUsersBookmarks([...usersBookmarks, {quake_id: response.quake_db_id, id: response.id}])
+                }
+            })
+        } else {
+            let found = usersBookmarks.find((bookmark) => {
+                return bookmark.quake_id == props.quake.id
+            })
+            if(found){
+                fetch(`http://localhost:3000/bookmarks/${found.id}`, {
+                    method: 'DELETE'
+                }).then(r => r.json())
+                .then((response) => {
+                    if(!response["errors"]){
+                        removeBookmarkFromState(props.quake.id)
+                    }
+                })
+            }
+        }
+    }
+
+    function removeBookmarkFromState(id){
+        let foundIndex
+        usersBookmarks.forEach((bookmark, i) => {
+            if(bookmark.quake_id == id){foundIndex = i}
+        })
+        let newBookmarks
+        if(foundIndex == 0){
+            newBookmarks = [...usersBookmarks.slice(1)]
+        } else {
+            newBookmarks = [...usersBookmarks.slice(0, foundIndex), ...usersBookmarks.slice(foundIndex+1)]
+        }
+        setUsersBookmarks(newBookmarks)
     }
 
     if(props.quake){
@@ -46,6 +149,7 @@ function QuakeDetails(props) {
                         <Label as='a' basic target="_blank" href={props.quake.properties.url}>
                             USGS Site
                         </Label>
+                        {getBookmarkButton()}
                     </Button>
                     <Segment>
                         <Header>Date-Time</Header>
@@ -85,7 +189,8 @@ function getColor(mag){
 function mapStateToProps(state){
     return {
         quake: state.selectedFeature,
-        detailFeature: state.detailFeature
+        detailFeature: state.detailFeature,
+        loggedIn: state.loggedIn
     }
 }
 

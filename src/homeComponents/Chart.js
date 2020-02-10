@@ -75,6 +75,10 @@ function genLine(props){
                 data={{
                     datasets: [lineArr]
                 }}
+                getElementAtEvent={(elems) => {
+                    console.log(props)
+                    console.log(elems)
+                }}
                 options={{
                     responsive: true,
                     maintainAspectRatio: false,
@@ -168,6 +172,9 @@ function genHist(props){
                     labels: barArr[0],
                     datasets: [barArr[1]]
                 }}
+                getElementAtEvent={(elems) => {
+                    console.log(elems)
+                }}
                 options={{
                     responsive: true,
                     maintainAspectRatio: false
@@ -250,6 +257,9 @@ function genBubble(props){
             className="bubbleChart"
             data={{
                 datasets: bubbleArr
+            }}
+            getElementAtEvent={(elems) => {
+                console.log(elems)
             }}
             options={{
                 responsive: true,
