@@ -12,7 +12,6 @@ function Profile(props) {
     let [user, setUser] = useState(null)
     let [comments, setComments] = useState([])
 
-
     useEffect(() => {
         setUser(null)
         setComments(null)

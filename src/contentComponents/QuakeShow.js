@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 import { Loader, Segment, Header, Button, Icon, Container, Input } from 'semantic-ui-react'
+
 import * as d3 from 'd3'
 import SweetAlert from 'sweetalert2-react'
-
 import CountriesMap from '../quakeShowComponents/CountriesMap'
 import Stats from '../quakeShowComponents/Stats'
 import CommentList from '../profileComponents/CommentList'
@@ -11,8 +11,6 @@ import CommentList from '../profileComponents/CommentList'
 import '../CSS/Quake.css'
 
 function QuakeShow(props) {
-
-
 
     const linearColor = d3.scaleLinear()
                             .range(["rgb(100,200,0,0.5)", "	rgb(150,0,0,0.5)"])
