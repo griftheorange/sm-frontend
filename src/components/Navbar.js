@@ -36,7 +36,7 @@ function Navbar(props) {
         <div className="navbar">
             <div className="logo">
                 <img src={'/earth_PNG39.png'} style={{maxHeight: "1.2em"}}></img>
-                <div> SeisMix</div>
+                <div> SEISMIX</div>
             </div>
             <Link to="/" onClick={stopRotation}>
             <div>

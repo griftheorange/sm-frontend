@@ -4,12 +4,22 @@ import { Card, Image, Button, Icon, Label, Input } from 'semantic-ui-react'
 function UserCard(props) {
 
     let [editing, setEditing] = useState(null)
-    let [imgFile, setImgFile] = useState(null)
+    let [imgFile, setImgFile] = useState("")
     let [imgURL, setImgURL] = useState(null)
+    let [addressField, setAddressField] = useState("")
+    let [radiusField, setRadiusField] = useState("")
+    let[address, setAddress] = useState(null)
+    let [radius, setRadius] = useState(null)
 
     useEffect(() => {
-        if(props.user.image_url){
-            getImage(props.user.image_url)
+        if(props.user.image_url){getImage(props.user.image_url)}
+        if(props.user.address){
+            setAddressField(props.user.address)
+            setAddress(props.user.address)
+        }
+        if(props.user.radius_concern){
+            setRadiusField(props.user.radius_concern)
+            setRadius(props.user.radius_concern)
         }
     }, [])
 
@@ -29,7 +39,7 @@ function UserCard(props) {
     }
 
     function saveUserImage(){
-        if(imgFile){
+        if(imgFile != ''){
             let file = document.querySelector("input[type='file']").files[0]
             let formData = new FormData();
             formData.append('file', file);
@@ -40,10 +50,58 @@ function UserCard(props) {
             fetch(`http://localhost:3000/users/${props.user.id}`, options)
             .then(r => r.json())
             .then((response) => {
-                getImage(response.image_url)
-                setEditing(null)
+                if(!response.errors){
+                    getImage(response.image_url)
+                    setEditing(null)
+                    setImgFile("")
+                }
             })
 
+        }
+    }
+
+    function saveAddress(){
+        if(addressField != ''){
+            fetch(`http://localhost:3000/users/${props.user.id}`, {
+                method: "PATCH",
+                headers: {
+                    "content-type":"application/json",
+                    "accept":"application/json"
+                },
+                body: JSON.stringify({
+                    address: addressField
+                })
+            })
+            .then(r => r.json())
+            .then((response) => {
+                if(!response.errors){
+                    setAddress(addressField)
+                    setEditing(null)
+                }
+            })
+        }
+    }
+
+    function saveRadius(){
+        console.log(radiusField)
+        if(radiusField != ''){
+            fetch(`http://localhost:3000/users/${props.user.id}`, {
+                method: "PATCH",
+                headers: {
+                    "content-type":"application/json",
+                    "accept":"application/json"
+                },
+                body: JSON.stringify({
+                    radius: radiusField
+                })
+            })
+            .then(r => r.json())
+            .then((response) => {
+                if(!response.errors){
+                    setRadius(radiusField)
+                    setEditing(null)
+                }
+            })
         }
     }
 
@@ -51,8 +109,22 @@ function UserCard(props) {
         if(editing == "image"){
             return (
                 <div className="ui action input" style={{width: "100%"}}>
-                    <Input onChange={(evt)=>{setImgFile(evt.target.value)}} type="file" style={{width: "70%"}}></Input>
+                    <Input onChange={(evt)=>{setImgFile(evt.target.value)}} type="file" style={{width: "70%"}} value={imgFile}></Input>
                     <Button onClick={saveUserImage} style={{width: "30%"}}>Submit</Button>
+                </div>
+            )
+        } else if(editing == "address"){
+            return (
+                <div className="ui action input" style={{width: "100%"}}>
+                    <Input onChange={(evt)=>{setAddressField(evt.target.value)}} style={{width: "70%"}} value={addressField}></Input>
+                    <Button onClick={saveAddress} style={{width: "30%"}}>Submit</Button>
+                </div>
+            )
+        } else if(editing == "radius"){
+            return (
+                <div className="ui action input" style={{width: "100%"}}>
+                    <Input onChange={(evt)=>{setRadiusField(evt.target.value)}} style={{width: "70%"}} value={radiusField} type="number"></Input>
+                    <Button onClick={saveRadius} style={{width: "30%"}}>Submit</Button>
                 </div>
             )
         }
@@ -81,11 +153,11 @@ function UserCard(props) {
             <Card.Content>
                 <Card.Header>{props.user.username.charAt(0).toUpperCase() + props.user.username.slice(1)}</Card.Header>
                 <Card.Content style={{display: "flex", width: "100%"}}>
-                    <Card.Meta textAlign="center" style={{marginRight: "2em"}}>ADDRESS: {props.user.address ? `: ${props.user.address}` : "N/A"}</Card.Meta>
+                    <Card.Meta textAlign="center" style={{marginRight: "2em"}}>ADDRESS: {address ? `: ${address}` : "N/A"}</Card.Meta>
                     <Button onClick={() => {toggleEditing("address")}} compact size="mini" style={{position: "absolute", left: "22em"}}><Icon name="edit" style={{display: "block", margin: "auto"}}></Icon></Button>
                 </Card.Content>
                 <Card.Content style={{display: "flex", width: "100%"}}>
-                    <Card.Meta textAlign="center" style={{marginRight: "2em"}}>RADIUS OF CONCERN: {props.user.radiusConcern ? `: ${props.user.radiusConcern}km` : "N/A"}</Card.Meta>
+                    <Card.Meta textAlign="center" style={{marginRight: "2em"}}>RADIUS OF CONCERN: {radius ? `: ${radius}km` : "N/A"}</Card.Meta>
                     <Button onClick={() => {toggleEditing("radius")}} compact size="mini" style={{position: "absolute", left: "22em"}}><Icon name="edit" style={{display: "block", margin: "auto"}}></Icon></Button>
                 </Card.Content>
             </Card.Content>

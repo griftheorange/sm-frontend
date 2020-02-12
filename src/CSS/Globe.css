@@ -114,3 +114,7 @@
 .guide-segments > .content-box.body > h1 {
     margin-top: 0.3em;
 }
+
+.content-box.body.info {
+    font-size: 1.3em;
+}

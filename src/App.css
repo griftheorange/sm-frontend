@@ -10,6 +10,8 @@
 .navbar > * {
   margin: auto;
   font-size: 1em;
+  font-family: 'Arial Black';
+  font-weight: bold;
   background-color: #e1e1e1;
   height: 2.2em;
   width: 14%;

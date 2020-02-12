@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Divider, Header, Container, Segment, Button, Icon } from 'semantic-ui-react'
+import { Card, Divider, Header, Container, Segment, Button, Icon, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import SweetAlert from 'sweetalert2-react'
@@ -20,8 +20,11 @@ function CommentList(props) {
                 return (
                     <div key={i}>
                     <Container style={{width: "calc(100% - 6.5em)", marginTop: 0, marginBottom: 0}}>
-                        <Card.Content>
-                            <Header textAlign="left" as="h1">{comment.comment_user.charAt(0).toUpperCase() + comment.comment_user.slice(1)}</Header>
+                        <Container>
+                            <Container style={{display: "flex", height: "3em"}}>
+                                {getCommentImage(comment)}
+                                <Header style={{position: "relative", marginTop:0}} textAlign="left" as="h1">{comment.comment_user.charAt(0).toUpperCase() + comment.comment_user.slice(1)}</Header>
+                            </Container>
                             <Header textAlign="left" sub style={{marginTop: "0.1em"}}>Posted: {comment.date_posted}</Header>
                             {props.from_profile ? <Header textAlign="left" sub style={{marginTop: "0.1em"}}><Link onClick={() => {props.setHoveredEvent(null)}} onMouseLeave={handleMouseLeave} onMouseEnter={() => {handleMouseEnter(comment)}} to={`/event/${comment.comment_quake}`}>{`${comment.quake_name} - Mag: ${comment.quake_mag}`}</Link></Header> : null}
                             <Segment>
@@ -32,7 +35,7 @@ function CommentList(props) {
                                     }
                                 }} size="mini" style={{position: "absolute", left: "calc(100% - 5em)", top: "1em"}}><Icon name="trash" style={{margin: 0}}></Icon></Button> : null}
                             </Segment>
-                        </Card.Content>
+                        </Container>
                     </Container>
                     <Divider ></Divider>
                     </div>
@@ -52,6 +55,17 @@ function CommentList(props) {
         {getCards()}
         </>
     );
+}
+
+function getCommentImage(comment){
+    return (
+        <Image className="profile-img"
+                circular size="mini" 
+                src={comment.user_img_URL ? comment.user_img_URL : "/default_pic.jpg" }
+                style={{width: "35px", height: "35px", marginRight: "0.5em"}}
+                >
+        </Image>
+    )
 }
 
 function mapStateToProps(state){

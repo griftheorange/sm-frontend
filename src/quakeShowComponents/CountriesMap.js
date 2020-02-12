@@ -135,11 +135,11 @@ function CountriesMap(props) {
             onMouseLeave={()=>{props.setHoveringMap(false)}}>
             {genGeography()}
             <g>
-                <rect className={props.hoveredEventId && props.hoveringMap ? "info-box show" : "info-box"} width="220" height="90" x={x} y={y} style={{transform: "translate(0.3em, 1.6em)"}}/>
-                <text className={props.hoveredEventId && props.hoveringMap ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 4em)"}}>Place: {hoveredEvent ? formatLocation(hoveredEvent.place) : null}</text>
-                <text className={props.hoveredEventId && props.hoveringMap ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 5.4em)"}}>Mag: {hoveredEvent ? hoveredEvent.mag : null}</text>
-                <text className={props.hoveredEventId && props.hoveringMap ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 6.8em)"}}>Date/Time:</text>
-                <text className={props.hoveredEventId && props.hoveringMap ? "text smaller show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 8.2em)"}}>{hoveredEvent ? hoveredEvent.dateAndTime : null}</text>
+                <rect className={props.hoveredEventId && props.hoveringMap && props.quakes ? "info-box show" : "info-box"} width="220" height="90" x={x} y={y} style={{transform: "translate(0.3em, 1.6em)"}}/>
+                <text className={props.hoveredEventId && props.hoveringMap && props.quakes ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 4em)"}}>Place: {hoveredEvent ? formatLocation(hoveredEvent.place) : null}</text>
+                <text className={props.hoveredEventId && props.hoveringMap && props.quakes ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 5.4em)"}}>Mag: {hoveredEvent ? hoveredEvent.mag : null}</text>
+                <text className={props.hoveredEventId && props.hoveringMap && props.quakes ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 6.8em)"}}>Date/Time:</text>
+                <text className={props.hoveredEventId && props.hoveringMap && props.quakes ? "text smaller show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 8.2em)"}}>{hoveredEvent ? hoveredEvent.dateAndTime : null}</text>
             </g>
         </svg>
     );

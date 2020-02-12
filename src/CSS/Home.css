@@ -22,6 +22,7 @@
   
   .content-box.header {
     font-size: 0.8em;
+    font-family: "Arial";
     background-color: #fafafa;
     text-align: center;
     margin: 0.3em;
@@ -78,6 +79,7 @@
   
   .content-box.body {
     font-size: 1em;
+    font-family: "Bookman";
     background-color: #fafafa;
     text-align: center;
     margin: 0.3em;
@@ -86,7 +88,7 @@
   }
 
   .content-box.body.guide {
-    font-size: 1.2em;
+    font-size: 1.4em;
     overflow: scroll;
   }
 
@@ -145,7 +147,7 @@
     text-align: left;
     padding-left: 0.8em;
     padding-right: 0.8em;
-    font-size: 0.9em;
+    font-size: 1.1em;
   }
 
   .header {

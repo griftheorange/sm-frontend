@@ -354,7 +354,7 @@ function genBubble(props){
                 <br></br>
                 <p>Occurrences with depth of origin(km) on the y, time on the x, and magnitude corresponding to bubble size.</p>
                 <br></br>
-                <p>Defaults to scaling circle area to relative force(mag8 will have 10x the area of a mag4).</p>
+                <p>Defaults to scaling circle area to relative amplitude (mag8 will have 10x the area of a mag4).</p>
                 <br></br>
                 <p>Scaling circle radius linearly with magnitude may make it easier to spot total event occurrences. Toggle below!</p>
                 <br></br>
