@@ -10,6 +10,10 @@ function Navbar(props) {
         props.setLoggedIn(null)
     }
 
+    function stopRotation(){
+        props.stopRotation()
+    }
+
     function getLoginLogout(){
         if(props.loggedIn){
             return (
@@ -19,7 +23,7 @@ function Navbar(props) {
             )
         } else {
             return (
-                <Link to="/login">
+                <Link to="/login"  onClick={stopRotation}>
                     <div>
                         Login
                     </div>
@@ -34,12 +38,12 @@ function Navbar(props) {
                 <img src={'/earth_PNG39.png'} style={{maxHeight: "1.2em"}}></img>
                 <div> SeisMix</div>
             </div>
-            <Link to="/">
+            <Link to="/" onClick={stopRotation}>
             <div>
                 Home
             </div>
             </Link>
-            <Link to="/about">
+            <Link to="/about"  onClick={stopRotation}>
             <div>
                 About
             </div>
@@ -49,7 +53,7 @@ function Navbar(props) {
                 GlobeView
             </div>
             </Link>
-            {window.localStorage.getItem("loggedIn") ? <Link to="/profile"><div>Profile</div></Link> : null}
+            {window.localStorage.getItem("loggedIn") ? <Link to="/profile"  onClick={stopRotation}><div>Profile</div></Link> : null}
             {getLoginLogout()}
         </div>
     );
@@ -67,6 +71,12 @@ function mapDispatchToProps(dispatch){
             dispatch({
                 type: "SET_LOGGED_IN",
                 token: value
+            })
+        },
+        stopRotation: () => {
+            dispatch({
+                type: "SET_ROTATING",
+                value: null
             })
         }
     }

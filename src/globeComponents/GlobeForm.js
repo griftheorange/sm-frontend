@@ -79,6 +79,31 @@ function GlobeForm(props) {
                 props.setRotation(arr)
                 props.changeMapType(evt.target.value)
                 break;
+            case "azumithal equidistant":
+                arr[2] = 0
+                props.setRotation(arr)
+                props.changeMapType(evt.target.value)
+                break;
+            case "conic conformal":
+                arr[2] = 0
+                props.setRotation(arr)
+                props.changeMapType(evt.target.value)
+                break;
+            case "conic equidistant":
+                arr[2] = 0
+                props.setRotation(arr)
+                props.changeMapType(evt.target.value)
+                break;
+            case "stereographic":
+                arr[2] = 0
+                props.setRotation(arr)
+                props.changeMapType(evt.target.value)
+                break;
+            case "gnomic":
+                arr[2] = 0
+                props.setRotation(arr)
+                props.changeMapType(evt.target.value)
+                break;
         }
     }
 
@@ -110,6 +135,11 @@ function GlobeForm(props) {
             <select onChange={changeMapType} value={props.mapType}>
                 <option value="orthographic">Orthographic</option>
                 <option value="mercator">Mercator</option>
+                <option value="azumithal equidistant">Azumithal Equidistant</option>
+                <option value="conic conformal">Conic Conformal</option>
+                <option value="conic equidistant">Conic Equidistant</option>
+                <option value="stereographic">Stereographic</option>
+                <option value="gnomic">Gnomic</option>
             </select>
         </div>
         </>

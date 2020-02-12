@@ -32,16 +32,49 @@ function Globe(props) {
         }
 
         let projection
-        if(pathType == "orthographic"){
-            projection = d3.geoOrthographic()
-                .translate(translateArr)
-                .scale(scale)
-                .rotate(props.rotation)
-        } else if(pathType == "mercator"){
-            projection = d3.geoMercator()
-                .translate(translateArr)
-                .scale(scale/2)
-                .rotate([props.rotation[0], 0, props.rotation[2]])
+        switch(pathType){
+            case "orthographic":
+                projection = d3.geoOrthographic()
+                    .translate(translateArr)
+                    .scale(scale)
+                    .rotate(props.rotation)
+                break;
+            case "mercator":
+                projection = d3.geoMercator()
+                    .translate(translateArr)
+                    .scale(scale/2)
+                    .rotate([props.rotation[0], props.rotation[1], props.rotation[2]])
+                break;
+            case "azumithal equidistant":
+                projection = d3.geoAzimuthalEquidistant()
+                    .translate(translateArr)
+                    .scale(scale/2)
+                    .rotate([props.rotation[0], props.rotation[1], props.rotation[2]])
+                break;
+            case 'conic conformal':
+                projection = d3.geoConicConformal()
+                    .translate(translateArr)
+                    .scale(scale/2)
+                    .rotate([props.rotation[0], props.rotation[1], props.rotation[2]])
+                break;
+            case 'conic equidistant':
+                    projection = d3.geoConicEquidistant()
+                        .translate(translateArr)
+                        .scale(scale/2)
+                        .rotate([props.rotation[0], props.rotation[1], props.rotation[2]])
+                    break;
+            case 'stereographic':
+                projection = d3.geoStereographic()
+                    .translate(translateArr)
+                    .scale(scale/2)
+                    .rotate([props.rotation[0], props.rotation[1], props.rotation[2]])
+                break;
+            case 'gnomic':
+                projection = d3.geoGnomonic()
+                    .translate(translateArr)
+                    .scale(scale/2)
+                    .rotate([props.rotation[0], props.rotation[1], props.rotation[2]])
+                break;
         }
 
         let path = d3.geoPath()

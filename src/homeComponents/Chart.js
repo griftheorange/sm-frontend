@@ -217,9 +217,7 @@ function genHist(props){
             <div className="overflow-handler">
                 <h3>SE Frequency vs Time</h3>
                 <br></br>
-                <p>Plots frequency of seismic event in half-day bins, starting from oldest quake to one week following.</p>
-                <br></br>
-                <p>Note, the final bin may be somewhat lower than its true value. It is usually in the process of being filled when the graphs are rendered.</p>
+                <p>Plots frequency of seismic event in incremental bins, starting from oldest quake to one week following. Sturges rule used to determine bin size.</p>
                 <br></br>
                 <p>Frequency may correspond interestingly to the other charts, see if you notice anything exciting!</p>
             </div>
@@ -264,7 +262,7 @@ function reduceFetchToBar(features){
     return  ([
         labels,
         {
-            label: "Seismic Events",
+            label: "Seismic Event Occurrences",
             backgroundColor: (context) => {
                 return getBarColor(context, linearBar)
             },
