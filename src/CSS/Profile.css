@@ -25,7 +25,8 @@
 }
 
 .profile-info {
-    flex: auto;
+    display: flex;
+    flex-flow: column;
     margin-right: 0.4em;
     min-width: 40em
 }

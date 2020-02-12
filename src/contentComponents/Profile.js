@@ -31,7 +31,7 @@ function Profile(props) {
                     props.setLoggedIn(null)
                     props.history.push('/login')
                 } else {
-                    console.log("Errors in Profile, useEffecr()")
+                    console.log("Errors in Profile, useEffect()")
                 }
             })
         } else {
