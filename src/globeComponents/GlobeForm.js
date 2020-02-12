@@ -56,6 +56,15 @@ function GlobeForm(props) {
         }
     }
 
+    function defaultRotation(){
+        props.setRotationSpeed([10, 0, 0])
+        if(props.mapType == "orthographic"){
+            props.setRotation([108, 0, 23.5])
+        } else {
+            props.setRotation([108, 0, 0])
+        }
+    }
+
     function handleLogChange(evt){
         props.setLoggishness(Number(evt.target.value))
     }
@@ -132,6 +141,7 @@ function GlobeForm(props) {
                 <span>10</span>
             </div>
             <button onClick={toggleRotating}>{props.rotating ? "Turn Off Rotation" : "Turn On Rotation"}</button>
+            <button onClick={defaultRotation}>Reset Default</button>
             <select onChange={changeMapType} value={props.mapType}>
                 <option value="orthographic">Orthographic</option>
                 <option value="mercator">Mercator</option>
