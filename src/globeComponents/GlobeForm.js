@@ -56,6 +56,18 @@ function GlobeForm(props) {
         }
     }
 
+    function getRand(max){
+        let sign = Math.random() < 0.5 ? -1 : 1
+        return Math.floor(Math.random() * max+1) * sign
+    }
+
+    function randomizer(){
+        let arr = ["orthographic", "mercator", "azumithal equidistant", "conic conformal", "conic equidistant", "stereographic", "gnomic"]
+        let arrLength = arr.length
+        props.changeMapType(arr[Math.floor(Math.random() * arr.length)])
+        props.setRotationSpeed([getRand(100), getRand(100), getRand(100)])
+    }
+
     function defaultRotation(){
         props.setRotationSpeed([10, 0, 0])
         if(props.mapType == "orthographic"){
@@ -80,38 +92,38 @@ function GlobeForm(props) {
         switch(evt.target.value){
             case "orthographic":
                 arr[2] = 23.5
-                props.setRotation(arr)
                 props.changeMapType(evt.target.value)
+                props.setRotation(arr)
                 break;
             case "mercator":
                 arr[2] = 0
-                props.setRotation(arr)
                 props.changeMapType(evt.target.value)
+                props.setRotation(arr)
                 break;
             case "azumithal equidistant":
                 arr[2] = 0
-                props.setRotation(arr)
                 props.changeMapType(evt.target.value)
+                props.setRotation(arr)
                 break;
             case "conic conformal":
                 arr[2] = 0
-                props.setRotation(arr)
                 props.changeMapType(evt.target.value)
+                props.setRotation(arr)
                 break;
             case "conic equidistant":
                 arr[2] = 0
-                props.setRotation(arr)
                 props.changeMapType(evt.target.value)
+                props.setRotation(arr)
                 break;
             case "stereographic":
                 arr[2] = 0
-                props.setRotation(arr)
                 props.changeMapType(evt.target.value)
+                props.setRotation(arr)
                 break;
             case "gnomic":
                 arr[2] = 0
-                props.setRotation(arr)
                 props.changeMapType(evt.target.value)
+                props.setRotation(arr)
                 break;
         }
     }
@@ -141,6 +153,7 @@ function GlobeForm(props) {
                 <span>10</span>
             </div>
             <button onClick={toggleRotating}>{props.rotating ? "Turn Off Rotation" : "Turn On Rotation"}</button>
+            <button onClick={randomizer}>Mix Things Up</button>
             <button onClick={defaultRotation}>Reset Default</button>
             <select onChange={changeMapType} value={props.mapType}>
                 <option value="orthographic">Orthographic</option>
