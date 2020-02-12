@@ -27,7 +27,7 @@ function App(props) {
     now.setDate(now.getDate() + 1)
     let end = formatDate(now)
     let start = formatDate(past)
-    let min = 3
+    let min = 4
     let max = 10
     props.setDateRange(start, end)
     props.setMagRange(min, max)
@@ -63,7 +63,7 @@ function App(props) {
     now.setDate(now.getDate() + 1)
     let end = formatDate(now)
     let start = formatDate(past)
-    let min = 3
+    let min = 4
     let max = 10
     props.setDateRange(start, end)
     props.setMagRange(min, max)

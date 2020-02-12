@@ -23,7 +23,7 @@ function GlobeView(props) {
                 }
             })
         }
-    })
+    }, [])
 
     return (
         <div className="flexer">

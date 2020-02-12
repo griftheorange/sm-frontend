@@ -9,6 +9,10 @@
     margin: auto;
 }
 
+.top-content {
+    margin-bottom: 0.2em
+}
+
 .ui.sub.header.about-sub {
     font-size: 1.5em;
     font-weight: bold;
@@ -23,6 +27,24 @@
 .about-us > h1.ui.header {
     margin-top: 1em;
     font-family: "Arial Black";
+}
+
+.about-us > div > img.ui.image {
+    width: 35em;
+    margin: auto;
+}
+.about-us > div {
+    padding: 0.1em;
+    width: 30em;
+    margin: auto;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.frame {
+    border: 0.7em solid grey;
+    border-left-color: lightgrey;
+    border-right-color: lightgrey;
 }
 
 .about-us > div > p {
@@ -43,7 +65,13 @@
 }
 
 .ui.segment.about-content {
-    margin: 1em;
-    height: 30em;
-    overflow-y: scroll;
+    margin: auto;
+    margin-bottom: 1.5em;
+    width: 90%;
+}
+
+.ui.segment.about-content > ul {
+   text-align: left;
+   font-size: 1.3em;
+   margin-left: 35%; 
 }

@@ -58,6 +58,7 @@ function QuakeDetails(props) {
         if(props.detailFeature && !(props.detailFeature.id == props.quake.id)){
             props.setDetailFeature(null)
         }
+        props.stopRotation()
         props.history.push(`/event/${props.quake.id}`)
     }
 
@@ -200,6 +201,12 @@ function mapDispatchToProps(dispatch){
             dispatch({
                 type: "SET_DETAIL_FEATURE",
                 value: quake
+            })
+        },
+        stopRotation: () => {
+            dispatch({
+                type: "SET_ROTATING",
+                value: null
             })
         }
     }
