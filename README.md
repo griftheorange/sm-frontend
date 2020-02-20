@@ -26,7 +26,8 @@ Reference-style:
 [logo]: ./public/default_pic.jpg "Logo Title Text 2"
 
 
-///////////////////////////////////////////////////////////////////////////////////
+# Default README
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
