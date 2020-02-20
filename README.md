@@ -29,6 +29,34 @@ This segment will be a brief rundown of the major components and some of their r
 
 This is a rough idea of the filenames and their relationships/positions along the tree. Since state in this app is being handled almost entirely by redux, this tree won't usually need to be referred too aside from determining what pages render which blocks.
 
+The top level component App handles the state settup, timers and loading properties that the entire app needs to be aware of. One step below is the Routers for client side routing then the two main Components that actually display content to the page.
+
+### NavBar
+
+NavBar is the top div highlighted in red in the image above. It handles the links that change the URL for client-side routing, conditionally renders the Profile link if an authorized user is logged in, and also handles logout under the same conditions.
+
+### Body
+
+Body handles all the routing dependant on the current URL. Body and all of it's downstream components will remount as the links change, but Navbar and App will not. This is mostly important for keeping track of how App-level state will respond to different changes in the webpage.
+
+Body renders different component containers based on the current URL, and they are detailed below:
+
+#### Home
+
+Renders a "Weekly" display of fetched quake data on the left (in green), with a downstream Chart component to handle the Chart.js implementations.
+
+![alt text](./public/Home.png "Component Tree")
+
+Renders a "GuideBox" With app details (in orange), a link to GlobeView and a downstream FetchForm component that is responsible for updating the current list of earthquake events. FetchForm is also rendered on the globe page, as detailed in the relationship chart
+
+#### About
+
+A relatively simple file almost entirely made of hard-coded text. Provides details on my inspiration for the app, and a breakdown of key quake attributes for self-instruction.
+
+#### GlobeView
+
+
+
 
 # Default README
 
