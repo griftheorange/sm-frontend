@@ -51,7 +51,7 @@ Renders a "GuideBox" With app details (in orange), a link to GlobeView and a dow
 
 #### About
 
-A relatively simple file almost entirely made of hard-coded text. Provides details on my inspiration for the app, and a breakdown of key quake attributes for self-instruction.
+A relatively simple file of almost entirely hard-coded text. Provides details on my inspiration for the app, and a breakdown of key quake attributes for self-instruction.
 
 #### GlobeView
 
