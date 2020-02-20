@@ -83,6 +83,10 @@ Lastly, the Quake show page renders a CountriesMap with the specific event pinne
 
 Also renders a list of stats, details and advisories generated conditionally based on the events specs (orange).
 
+
+
+Documentation on the specifics of implementation can be found in the corresponding component files. Have fun!
+
 # Default Scripts included with Create-React-App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
