@@ -71,11 +71,19 @@ Renders the users's profile page if logged in, else boots them to login page and
 
 ![alt text](./public/Profile.png "Profile Page")
 
-Also renders a User's profile card with details, and two lists, one of their bookmarks and one of their comments. Both support links to the events they refer too. 
+Also renders a User's profile card with details, and two lists, one of their bookmarks and one of their comments (orange). Both support links to the events they refer too. 
 
 Both the Countries Map and the Comment List components are used by the Quake Show page as well, indicated on the relationship tree.
 
-# Default README
+#### QuakeShow
+
+Lastly, the Quake show page renders a CountriesMap with the specific event pinned and a CommentList containing all the insights for this particular event (green).
+
+![alt text](./public/Show.png "Quake Show Page")
+
+Also renders a list of stats, details and advisories generated conditionally based on the events specs (orange).
+
+# Default Scripts included with Create-React-App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
