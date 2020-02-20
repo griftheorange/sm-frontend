@@ -17,7 +17,7 @@ To settup this app, after cloning run npm install to install all package depende
 
 After installing, running "yarn build" will create an optimized, minified version of the application that you can boot up with "serve -s build". This make take two to three minutes to complete. Alternatively, if you want to boot up the application in development mode, run "npm start". Either way your booted app should look something like this:
 
-![alt text](./public/div.png "Example")
+![alt text](./public/divs.png "Example")
 
 Some functions may not work if you aren't running your backend on localhost:3000. If your backend is running on a different port, go to the reducer file at "/reducers/reducer.js". At the top of the file their should be an initialState variable that handles all the load-up defaults for the application. At the very top is a "domain" key set to "localhost:3000". Change the value to whatever domain your backend is being hosted on.
 
