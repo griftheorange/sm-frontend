@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Segment, Header, Container, Button, Icon, Label } from 'semantic-ui-react' 
 import { connect } from 'react-redux'
+import { switchStatement } from '@babel/types';
 
 function QuakeDetails(props) {
 
@@ -12,7 +13,7 @@ function QuakeDetails(props) {
 
     useEffect(() => {
         if(props.loggedIn){
-            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`, {
+            fetch(`http://${props.domain}/users/${props.loggedIn.user_id}`, {
                 headers: {
                     "Authorization": JSON.stringify(props.loggedIn)
                 }
@@ -83,7 +84,7 @@ function QuakeDetails(props) {
             return bookmark.quake_id
         })
         if(!bookmark_db_ids.includes(props.quake.id)){
-            fetch(`http://localhost:3000/bookmarks`, {
+            fetch(`http://${props.domain}/bookmarks`, {
                 method: 'POST',
                 headers: {
                     'content-type':'application/json',
@@ -109,7 +110,7 @@ function QuakeDetails(props) {
                 return bookmark.quake_id == props.quake.id
             })
             if(found){
-                fetch(`http://localhost:3000/bookmarks/${found.id}`, {
+                fetch(`http://${props.domain}/bookmarks/${found.id}`, {
                     method: 'DELETE'
                 }).then(r => r.json())
                 .then((response) => {
@@ -191,7 +192,8 @@ function mapStateToProps(state){
     return {
         quake: state.selectedFeature,
         detailFeature: state.detailFeature,
-        loggedIn: state.loggedIn
+        loggedIn: state.loggedIn,
+        domain: state.domain
     }
 }
 

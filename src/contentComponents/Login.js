@@ -19,7 +19,7 @@ function Login(props) {
     }
 
     function handleClick(value){
-        fetch(`http://localhost:3000/${value}`, {
+        fetch(`http://${props.domain}/${value}`, {
             method: "POST",
             headers: {
                 "content-type":"application/json",

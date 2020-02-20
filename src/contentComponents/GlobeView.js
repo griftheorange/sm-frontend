@@ -10,7 +10,7 @@ function GlobeView(props) {
 
     useEffect(() => {
         if(props.loggedIn){
-            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`, {
+            fetch(`http://${props.domain}/users/${props.loggedIn.user_id}`, {
                 headers: {
                     "Authorization": JSON.stringify(props.loggedIn)
                 }
@@ -35,7 +35,8 @@ function GlobeView(props) {
 
 function mapStateToProps(state){
     return {
-        loggedIn: state.loggedIn
+        loggedIn: state.loggedIn,
+        domain: state.domain
     }
 }
 

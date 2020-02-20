@@ -1,4 +1,5 @@
 let initialState = {
+    domain: "localhost:3000",
     features: [],
     detailFeature: null,
     selectedFeature: null,

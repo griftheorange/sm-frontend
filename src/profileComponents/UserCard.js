@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Image, Button, Icon, Label, Input } from 'semantic-ui-react' 
+import { connect } from 'react-redux';
 
 function UserCard(props) {
 
@@ -47,7 +48,7 @@ function UserCard(props) {
                 method: 'PATCH',
                 body: formData
             }
-            fetch(`http://localhost:3000/users/${props.user.id}`, options)
+            fetch(`http://${props.domain}/users/${props.user.id}`, options)
             .then(r => r.json())
             .then((response) => {
                 if(!response.errors){
@@ -62,7 +63,7 @@ function UserCard(props) {
 
     function saveAddress(){
         if(addressField != ''){
-            fetch(`http://localhost:3000/users/${props.user.id}`, {
+            fetch(`http://${props.domain}/users/${props.user.id}`, {
                 method: "PATCH",
                 headers: {
                     "content-type":"application/json",
@@ -85,7 +86,7 @@ function UserCard(props) {
     function saveRadius(){
         console.log(radiusField)
         if(radiusField != ''){
-            fetch(`http://localhost:3000/users/${props.user.id}`, {
+            fetch(`http://${props.domain}/users/${props.user.id}`, {
                 method: "PATCH",
                 headers: {
                     "content-type":"application/json",
@@ -166,4 +167,12 @@ function UserCard(props) {
     );
 }
 
-export default UserCard;
+function mapStateToProps(state){
+    return (
+        {
+            domain: state.domain
+        }
+    )
+}
+
+export default connect(mapStateToProps)(UserCard);

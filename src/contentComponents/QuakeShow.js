@@ -28,7 +28,7 @@ function QuakeShow(props) {
         .then(r => r.json())
         .then((response) => {
             props.setDetailFeature(response)
-            fetch(`http://localhost:3000/commented_quakes/${response.id}`)
+            fetch(`http://${props.domain}/commented_quakes/${response.id}`)
             .then(r => r.json())
             .then((commented_quake) => {
                 if(commented_quake.comments){
@@ -37,7 +37,7 @@ function QuakeShow(props) {
             })
         })
         if(props.loggedIn){
-            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`, {
+            fetch(`http://${props.domain}/users/${props.loggedIn.user_id}`, {
                 headers: {
                     "Authorization": JSON.stringify(props.loggedIn)
                 }
@@ -63,7 +63,7 @@ function QuakeShow(props) {
     }, [props.loggedIn])
 
     function handleDelete(comment){
-        fetch(`http://localhost:3000/comments/${comment.id}`, {
+        fetch(`http://${props.domain}/comments/${comment.id}`, {
             method: "DELETE"
         })
         .then(r => r.json())
@@ -117,7 +117,7 @@ function QuakeShow(props) {
 
     function handleBookmarking(evt){
         if(!bookmarked){
-            fetch(`http://localhost:3000/bookmarks`, {
+            fetch(`http://${props.domain}/bookmarks`, {
                 method: 'POST',
                 headers: {
                     'content-type':'application/json',
@@ -139,7 +139,7 @@ function QuakeShow(props) {
                 }
             })
         } else {
-            fetch(`http://localhost:3000/bookmarks/${bookmarked.id}`, {
+            fetch(`http://${props.domain}/bookmarks/${bookmarked.id}`, {
                 method: 'DELETE'
             }).then(r => r.json())
             .then((response) => {
@@ -156,7 +156,7 @@ function QuakeShow(props) {
 
     function handleComment(){
         let date = new Date(Date.now())
-        fetch("http://localhost:3000/comments", {
+        fetch(`http://${props.domain}/comments`, {
             method: "POST",
             headers: {
                 'content-type':'application/json',
@@ -260,7 +260,8 @@ function QuakeShow(props) {
 function mapStateToProps(state){
     return {
         fetchedQuake: state.detailFeature,
-        loggedIn: state.loggedIn
+        loggedIn: state.loggedIn,
+        domain: state.domain
     }
 }
 

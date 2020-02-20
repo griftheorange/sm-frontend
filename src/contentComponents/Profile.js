@@ -16,7 +16,7 @@ function Profile(props) {
         setUser(null)
         setComments(null)
         if(props.loggedIn){
-            fetch(`http://localhost:3000/users/${props.loggedIn.user_id}`, {
+            fetch(`http://${props.domain}/users/${props.loggedIn.user_id}`, {
                 headers: {
                     "Authorization":JSON.stringify(props.loggedIn)
                 }
@@ -46,7 +46,7 @@ function Profile(props) {
     }
 
     function handleDelete(comment){
-        fetch(`http://localhost:3000/comments/${comment.id}`, {
+        fetch(`http://${props.domain}/comments/${comment.id}`, {
             method: "DELETE"
         })
         .then(r => r.json())
@@ -100,7 +100,8 @@ function Profile(props) {
 
 function mapStateToProps(state){
     return {
-        loggedIn: state.loggedIn
+        loggedIn: state.loggedIn,
+        domain: state.domain
     }
 }
 

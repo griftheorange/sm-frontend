@@ -1,3 +1,26 @@
+# SeisMix Frontend - README
+
+## Settup: (NOTE: App was created with create-react-app, for default script info, see bottome of README)
+
+To settup this app, after cloning run npm install to install all package dependencies. The main dependencies for this project are: 
+
+- "d3": "^5.15.0"
+- "react": "^16.12.0"
+- "react-chartjs-2": "^2.9.0"
+- "react-dom": "^16.12.0"
+- "react-redux": "^7.1.3"
+- "react-router-dom": "^5.1.2"
+- "redux": "^4.0.5"
+- "semantic-ui-react": "^0.88.2"
+- "sweetalert2-react": "^0.8.3"
+- "topojson-client": "^3.1.0"
+
+After installing, running "yarn build" will create an optimized, minified version of the application that you can boot up with "serve -s build". Alternatively, if you want to boot up the application in development mode, run "npm start".
+
+Some functions may not work if you aren't running your backend on localhost:3000. If your backend is running on a different port, change the domain name at ""
+
+
+///////////////////////////////////////////////////////////////////////////////////
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
