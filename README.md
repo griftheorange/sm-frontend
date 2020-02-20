@@ -15,7 +15,11 @@ To settup this app, after cloning run npm install to install all package depende
 - "sweetalert2-react": "^0.8.3"
 - "topojson-client": "^3.1.0"
 
-After installing, running "yarn build" will create an optimized, minified version of the application that you can boot up with "serve -s build". This make take two to three minutes to complete. Alternatively, if you want to boot up the application in development mode, run "npm start".
+After installing, running "yarn build" will create an optimized, minified version of the application that you can boot up with "serve -s build". This make take two to three minutes to complete. Alternatively, if you want to boot up the application in development mode, run "npm start". Either way, on your booted page your should see something like this:
+
+![alt text][logo]
+
+[logo]: ./public/divs.png "Homepage"
 
 Some functions may not work if you aren't running your backend on localhost:3000. If your backend is running on a different port, go to the reducer file at "/reducers/reducer.js". At the top of the file their should be an initialState variable that handles all the load-up defaults for the application. At the very top is a "domain" key set to "localhost:3000". Change the value to whatever domain your backend is being hosted on.
 
@@ -25,7 +29,7 @@ This segment will be a brief rundown of the major components and some of their r
 
 ![alt text][logo]
 
-[logo]: ./public/componentTree.png "Logo Title Text 2"
+[logo]: ./public/componentTree.png "Component Tree"
 
 This is a rough idea of the filenames and their relationships/positions along the tree. Since state in this app is being handled almost entirely by redux, this tree won't usually need to be referred too aside from determining what pages render which blocks.
 
