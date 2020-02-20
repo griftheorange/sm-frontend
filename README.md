@@ -24,6 +24,7 @@ Some functions may not work if you aren't running your backend on localhost:3000
 This segment will be a brief rundown of the major components and some of their responsibilities. An extensive component tree for this app is displayed below:
 
 ![alt text][logo]
+
 [logo]: ./public/componentTree.png "Logo Title Text 2"
 
 This is a rough idea of the filenames and their relationships/positions along the tree. Since state in this app is being handled almost entirely by redux, this tree won't usually need to be referred too aside from determining what pages render which blocks.
