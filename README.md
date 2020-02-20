@@ -19,11 +19,14 @@ After installing, running "yarn build" will create an optimized, minified versio
 
 Some functions may not work if you aren't running your backend on localhost:3000. If your backend is running on a different port, go to the reducer file at "/reducers/reducer.js". At the top of the file their should be an initialState variable that handles all the load-up defaults for the application. At the very top is a "domain" key set to "localhost:3000". Change the value to whatever domain your backend is being hosted on.
 
+## Components
+
+This segment will be a brief rundown of the major components and some of their responsibilities. An extensive component tree for this app is displayed below:
 
 ![alt text][logo]
-
-
 [logo]: ./public/componentTree.png "Logo Title Text 2"
+
+This is a rough idea of the filenames and their relationships/positions along the tree. Since state in this app is being handled almost entirely by redux, this tree won't usually need to be referred too aside from determining what pages render which blocks.
 
 
 # Default README
