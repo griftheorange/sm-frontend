@@ -15,7 +15,9 @@ To settup this app, after cloning run npm install to install all package depende
 - "sweetalert2-react": "^0.8.3"
 - "topojson-client": "^3.1.0"
 
-After installing, running "yarn build" will create an optimized, minified version of the application that you can boot up with "serve -s build". This make take two to three minutes to complete. Alternatively, if you want to boot up the application in development mode, run "npm start".
+After installing, running "yarn build" will create an optimized, minified version of the application that you can boot up with "serve -s build". This make take two to three minutes to complete. Alternatively, if you want to boot up the application in development mode, run "npm start". Either way your booted app should look something like this:
+
+![alt text](./public/div.png "Example")
 
 Some functions may not work if you aren't running your backend on localhost:3000. If your backend is running on a different port, go to the reducer file at "/reducers/reducer.js". At the top of the file their should be an initialState variable that handles all the load-up defaults for the application. At the very top is a "domain" key set to "localhost:3000". Change the value to whatever domain your backend is being hosted on.
 
@@ -59,6 +61,19 @@ One of the more involved components. Renders a Globe component (in green) that h
 
 Also renders a GlobeGuide component (in orange) that does four things: allows the user to update the current quakes just as on the front page, allows the user to update globe properties (rotation, projection type, etc.), provides a list of all currently rendered quakes with links, and provides a summary of details for the currently selected quake. 
 
+#### Login
+
+Renders a simple login page with username and password fields, and buttons to either create an account of login to existing. Alerts user with sweetalert if improper inputs occur.
+
+#### Profile
+
+Renders the users's profile page if logged in, else boots them to login page and forcably removes any invalid tokens. Profile page renders a CountriesMap component (green) that also marks down all of the events that a user has bookmarked with hover-over details and links to their show pages.
+
+![alt text](./public/Profile.png "Profile Page")
+
+Also renders a User's profile card with details, and two lists, one of their bookmarks and one of their comments. Both support links to the events they refer too. 
+
+Both the Countries Map and the Comment List components are used by the Quake Show page as well, indicated on the relationship tree.
 
 # Default README
 
