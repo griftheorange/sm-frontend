@@ -45,7 +45,7 @@ Body renders different component containers based on the current URL, and they a
 
 Renders a "Weekly" display of fetched quake data on the left (in green), with a downstream Chart component to handle the Chart.js implementations.
 
-![alt text](./public/Home.png "Component Tree")
+![alt text](./public/Home.png "Home Page")
 
 Renders a "GuideBox" With app details (in orange), a link to GlobeView and a downstream FetchForm component that is responsible for updating the current list of earthquake events. FetchForm is also rendered on the globe page, as detailed in the relationship chart
 
@@ -55,7 +55,11 @@ A relatively simple file almost entirely made of hard-coded text. Provides detai
 
 #### GlobeView
 
+One of the more involved components. Renders a Globe component (in green) that handles the D3 functions to translate map and quake features into the continents and quake circles.
 
+![alt text](./public/Globe.png "Globe Page")
+
+Also renders a GlobeGuide component (in orange) that does four things: allows the user to update the current quakes just as on the front page, allows the user to update globe properties (rotation, projection type, etc.), provides a list of all currently rendered quakes with links, and provides a summary of details for the currently selected quake. 
 
 
 # Default README
