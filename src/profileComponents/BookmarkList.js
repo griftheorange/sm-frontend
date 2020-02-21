@@ -18,10 +18,13 @@ function BookmarkList(props) {
         props.history.push(`/event/${bookmark.quake_db_id}`)
     }
 
+    //Hovered event is a redux state that allows Countries Map to highlight events when they are hovered in any component in the app
+    //Also allows it to render description box on profile page
     function handleMouseEnter(bookmark){
         props.setHoveredEvent(bookmark.quake_db_id)
     }
 
+    //Reverses hovered event
     function handleMouseExit(){
         props.setHoveredEvent(null)
     }

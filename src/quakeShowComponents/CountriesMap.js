@@ -11,6 +11,7 @@ function CountriesMap(props) {
     let [x, setX] = useState(0)
     let [y, setY] = useState(0)
 
+    //on mount, sets the mounted state to the bounding rect of the canvas svg to assist in map rendering
     useEffect(() => {
         let svg = document.querySelector(".countries-canvas")
         setMounted(svg.getBoundingClientRect())
@@ -20,6 +21,7 @@ function CountriesMap(props) {
         props.changeScale(evt.deltaY)
     }
 
+    //returns a D3 path generator function on a Mercator projection, if rendering with a centered prop, centers on the giver lat and long, else default centers
     function getPath(){
         let canvasHolder = document.querySelector(".countries-canvas")
         let translateArr = [0, 0]
@@ -63,6 +65,9 @@ function CountriesMap(props) {
         props.setHoveredEvent(null)
     }
 
+    //Conditionally renders different number of events and different listeners if props.quake (singular) exists, or props.quakes (plural) exists.
+    //The singular specifies conditions for a single quake show page
+    //The plural specifies conditions for a users profile page, displaying bookmared events
     function genGeography(){
         if(mounted){
             if(props.quake){
@@ -99,6 +104,7 @@ function CountriesMap(props) {
         }
     }
 
+    //updates the x and y states for moving the on-hover description box for the profile page map
     function handleMouseMove(evt){
         if(props.quakes){
             let mouseX = evt.clientX - mounted.x
@@ -120,6 +126,7 @@ function CountriesMap(props) {
         })
     }
 
+    //formats location for label
     function formatLocation(loc){
         let arr = loc.split(/\sof\s/)
         if(arr.length > 1){
@@ -135,6 +142,7 @@ function CountriesMap(props) {
             onMouseLeave={()=>{props.setHoveringMap(false)}}>
             {genGeography()}
             <g>
+                {/* renders the info display box on hover if all conditions are met */}
                 <rect className={props.hoveredEventId && props.hoveringMap && props.quakes ? "info-box show" : "info-box"} width="220" height="90" x={x} y={y} style={{transform: "translate(0.3em, 1.6em)"}}/>
                 <text className={props.hoveredEventId && props.hoveringMap && props.quakes ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 4em)"}}>Place: {hoveredEvent ? formatLocation(hoveredEvent.place) : null}</text>
                 <text className={props.hoveredEventId && props.hoveringMap && props.quakes ? "text show" : "text"} x={x} y={y} style={{transform: "translate(1.5em, 5.4em)"}}>Mag: {hoveredEvent ? hoveredEvent.mag : null}</text>

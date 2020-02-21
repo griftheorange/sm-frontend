@@ -12,6 +12,7 @@ function UserCard(props) {
     let[address, setAddress] = useState(null)
     let [radius, setRadius] = useState(null)
 
+    //default sets the users fields to the fetched information. local states updated on successful patch
     useEffect(() => {
         if(props.user.image_url){getImage(props.user.image_url)}
         if(props.user.address){
@@ -39,6 +40,8 @@ function UserCard(props) {
         setImgURL(url)
     }
 
+
+    //following three functions handle their respective PATCH actions to the user when editing traits
     function saveUserImage(){
         if(imgFile != ''){
             let file = document.querySelector("input[type='file']").files[0]
@@ -106,6 +109,7 @@ function UserCard(props) {
         }
     }
 
+    //conditionally renders different form in usercard depending on what edit button is currently active
     function getForm(){
         if(editing == "image"){
             return (
@@ -131,6 +135,7 @@ function UserCard(props) {
         }
     }
 
+    //toggles display of edit form on click
     function toggleEditing(value){
         if(editing){
             if(editing == value ){

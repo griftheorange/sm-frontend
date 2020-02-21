@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux'
 import { Dimmer, Loader } from 'semantic-ui-react'
 
+//controlled form. Will not permit start date to be after end date and vice versa
 function handleDateChange(evt, setters, getters){
     if(evt.target.value){
         if(evt.target.name == 'start'){
@@ -20,6 +21,7 @@ function formatDate(date){
     return date.getFullYear()+'-'+(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'-'+(date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
   }
 
+//controlled form. Will not permit min to be higher than mag and vice versa
 function handleMagChange(evt, setters, getters){
     if(!(evt.target.value == "")){
         if(evt.target.name == 'min'){
@@ -34,11 +36,13 @@ function handleMagChange(evt, setters, getters){
     }
 }
 
+//updates fetch state, triggering re-fetch
 function handleSubmit(getters, props){
     props.setDate(getters[0], getters[1])
     props.setMag(getters[2].toString(), getters[3].toString())
 }
 
+//sets to default states
 function handleDefault(props){
     let now = new Date(Date.now())
     let past = new Date()
@@ -54,6 +58,7 @@ function handleDefault(props){
 
 function FetchForm(props) {
 
+    //variables for controlled form
     const [start, setStart] = useState(props.start)
     const [end, setEnd] = useState(props.end)
     const [minMag, setMin] = useState(props.minMag)

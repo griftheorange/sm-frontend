@@ -6,10 +6,13 @@ import SweetAlert from 'sweetalert2-react'
 
 function CommentList(props) {
 
+    //Hovered event is a redux state that allows Countries Map to highlight events when they are hovered in any component in the app
+    //Also allows it to render description box on profile page
     function handleMouseEnter(comment){
         props.setHoveredEvent(comment.comment_quake)
     }
 
+    //Reverses hovered event
     function handleMouseLeave(){
         props.setHoveredEvent(null)
     }
