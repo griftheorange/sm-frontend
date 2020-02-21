@@ -9,9 +9,12 @@ import { connect } from 'react-redux'
 
 function Profile(props) {
 
+    //stores user mount/successful fetch for page rendering
     let [user, setUser] = useState(null)
+    //stores comments on successful fetch
     let [comments, setComments] = useState([])
 
+    //authorizes user token on mount
     useEffect(() => {
         setUser(null)
         setComments(null)
@@ -45,6 +48,7 @@ function Profile(props) {
         }
     }
 
+    //handles deletion of user comment
     function handleDelete(comment){
         fetch(`http://${props.domain}/comments/${comment.id}`, {
             method: "DELETE"
@@ -64,7 +68,7 @@ function Profile(props) {
             setComments(newComments)
         })
     }
-
+    
     function getUserBlock(){
         if(user){
             return (

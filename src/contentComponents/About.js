@@ -3,6 +3,7 @@ import { Container, Header, Image, Divider, Segment } from 'semantic-ui-react'
 import '../CSS/About.css'
 
 function About(props) {
+    //Just a bulky hard-coded text page
     return (
         <div style={{overflowX: "scroll", display: "flex"}}>
         <div className="content-box body about">

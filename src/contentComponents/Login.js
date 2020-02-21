@@ -10,6 +10,7 @@ function Login(props) {
     let [password, setPassword] = useState("")
     let [alerting, setAlerting] = useState(false)
 
+    //maintains controlled form values in useState variables
     function handleChange(evt){
         if (evt.target.name == "username"){
             setUsername(evt.target.value)
@@ -18,6 +19,8 @@ function Login(props) {
         }
     }
 
+    //Handles both login and create account based on value argument.
+    //Different routes responsible for varying logic on the backend
     function handleClick(value){
         fetch(`http://${props.domain}/${value}`, {
             method: "POST",
@@ -42,6 +45,7 @@ function Login(props) {
         })
     }
 
+    //Formats JSON errors for user alerts. 'alerting' stores the response object with errors in it
     function getErrors(){
         let strArr = []
         for(let key in alerting){

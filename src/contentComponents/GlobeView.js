@@ -8,6 +8,7 @@ import '../CSS/Globe.css'
 
 function GlobeView(props) {
 
+    //authorizes user token on mount
     useEffect(() => {
         if(props.loggedIn){
             fetch(`http://${props.domain}/users/${props.loggedIn.user_id}`, {

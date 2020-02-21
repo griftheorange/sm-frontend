@@ -13,13 +13,18 @@ import {
 
 function App(props) {
 
+  //handles alert at app-level for fetches that either error out or excede 12000 events
   let [alerting, setAlerting] = useState(null)
+  //stores the timer object created by setInterval for Globe Rotation. 
+  //Needed to re-access for timer.clear when stopping rotation, else memory leakage occurs
   let [timer, setTimer] = useState(null)
 
   function formatDate(date){
     return date.getFullYear()+'-'+(date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'-'+(date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
   }
 
+  //On App load, grabs current date/time and sets default fetch parameters for past week's events
+  //Only runs once on App mount (page load or refresh)
   useEffect(() => {
     let now = new Date(Date.now())
     let past = new Date()
@@ -33,6 +38,8 @@ function App(props) {
     props.setMagRange(min, max)
   }, [])
 
+  //Handles re-fetching of USGS events whenever query parameters change.
+  //Params can change by default on app-load or manually when user submits through fetch-form
   useEffect(() => {
     props.setLoading(true)
     if(props.start && props.end && props.minMagnitude && props.maxMagnitude){
@@ -56,6 +63,16 @@ function App(props) {
     }
   }, [props.start, props.end, props.minMagnitude, props.maxMagnitude])
 
+  //sets/stops globe rotation timers in resposne to changes in redux state
+  useEffect(() => {
+    if(props.rotating){
+      startClock()
+    } else {
+      stopClock()
+    }
+  }, [props.rotating])
+
+  //Resets fetch params back to default if illegal query occurs (too many events returned)
   function handleDefault(){
     let now = new Date(Date.now())
     let past = new Date()
@@ -69,6 +86,7 @@ function App(props) {
     props.setMagRange(min, max)
   }
 
+  //Starts timer for globe rotation
   function startClock(){
     let clock = setInterval(()=>{
       props.incrementLambda()
@@ -76,18 +94,12 @@ function App(props) {
     setTimer(clock)
   }
 
+  //Ends rotation timer, clears object
   function stopClock(){
     clearInterval(timer)
     setTimer(null)
   }
 
-  useEffect(() => {
-    if(props.rotating){
-      startClock()
-    } else {
-      stopClock()
-    }
-  }, [props.rotating])
 
   return (
     <Router>

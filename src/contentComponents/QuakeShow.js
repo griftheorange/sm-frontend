@@ -12,17 +12,27 @@ import '../CSS/Quake.css'
 
 function QuakeShow(props) {
 
+    //sets D3 color scale for border color rendering (same as map circles)
     const linearColor = d3.scaleLinear()
                             .range(["rgb(100,200,0,0.5)", "	rgb(150,0,0,0.5)"])
                             .domain([0, 5])
 
+    //stores whether quake is currently bookmarked or not, defaults to false updates on fetch
     let [bookmarked, setBookmarked] = useState(false)
+    //hides and shows comment box. "show" to make visible, false to hide
     let [commenting, setCommenting] = useState("")
+    //controlled form variable for comment box
     let [commentContent, setCommentContent] = useState("")
+    //stores errors if they occur in fetch for SweetAlert
     let [alerting, setAlerting] = useState(false)
+    //stores comments on this quake following successful fetch
     let [comments, setComments] = useState([])
 
+    //Asynchronously fetches the data for one quake and authorizes user token
+    //Auth required to determine whether to render comment button/div and bookmark option
+    //Runs on mount and if loggedIn status changes
     useEffect(() => {
+        //fetch for target quake event
         props.setDetailFeature(null)
         fetch(`https://earthquake.usgs.gov/fdsnws/event/1/query?eventid=${props.match.params.id}&format=geojson`)
         .then(r => r.json())
@@ -36,6 +46,7 @@ function QuakeShow(props) {
                 }
             })
         })
+        //fetch for user if "logged in", resets logged in on incorrect auth
         if(props.loggedIn){
             fetch(`http://${props.domain}/users/${props.loggedIn.user_id}`, {
                 headers: {
@@ -48,6 +59,7 @@ function QuakeShow(props) {
                     let found = response.bookmarks.find((bookmark) => {
                         return bookmark.quake_db_id == props.match.params.id
                     })
+                    //sets bookmarked status to true if matching bookmark found
                     if (found) {
                         setBookmarked(found)
                     }
@@ -62,6 +74,7 @@ function QuakeShow(props) {
 
     }, [props.loggedIn])
 
+    //handles deletion of user comment
     function handleDelete(comment){
         fetch(`http://${props.domain}/comments/${comment.id}`, {
             method: "DELETE"
@@ -102,6 +115,7 @@ function QuakeShow(props) {
         return `${hour}:${date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()}:${date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds()}${am ? 'AM' : 'PM'} - EST`
     }
 
+    //hides/shows the comment box on toggle
     function toggleCommenting(){
         setCommenting("show")
     }
@@ -115,6 +129,8 @@ function QuakeShow(props) {
         )
     }
 
+    //on click, handles the DELETE fetch or POST fetch required to update bookmarked status
+    //on successful response, toggles the local state of bookmarked to updated status
     function handleBookmarking(evt){
         if(!bookmarked){
             fetch(`http://${props.domain}/bookmarks`, {
@@ -150,10 +166,12 @@ function QuakeShow(props) {
         }
     }
 
+    //controlled form change
     function handleChange(evt){
         setCommentContent(evt.target.value)
     }
 
+    //fetch POSTS to create a new comment, then resets state if successful, else alert user of errors
     function handleComment(){
         let date = new Date(Date.now())
         fetch(`http://${props.domain}/comments`, {
@@ -183,6 +201,7 @@ function QuakeShow(props) {
         })
     }
 
+    //handles conditional rendering, className change of Comment Box
     function getCommentBox(){
         if(props.loggedIn){
             return (
@@ -206,6 +225,7 @@ function QuakeShow(props) {
         }
     }
 
+    //formats errors for SweetAlert
     function getErrors(errors){
         let strArr = []
         for(let key in errors){

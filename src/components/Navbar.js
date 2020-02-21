@@ -10,10 +10,13 @@ function Navbar(props) {
         props.setLoggedIn(null)
     }
 
+    //handles callback to App.js
     function stopRotation(){
         props.stopRotation()
     }
 
+    //Checks status of loggedIn, if 'true', renders logout link with onCLick
+    //If not logged in, renders link to login page
     function getLoginLogout(){
         if(props.loggedIn){
             return (

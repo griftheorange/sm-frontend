@@ -9,6 +9,7 @@ import QuakeShow from '../contentComponents/QuakeShow'
 
 import { Switch, Route } from 'react-router-dom'
 
+//Router switches 
 function Body(props) {
     return (
         <div className="body-content">
