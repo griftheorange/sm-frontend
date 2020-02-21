@@ -9,18 +9,21 @@ import { stat } from 'fs';
 
 function Globe(props) {
     
+    //tracks mounted status of page, needed because globe rendering dependant on mounted size of canval element
+    //also sets the D3 color scale for map features
     let [mounted, setMounted] = useState(false)
     const linearColor = d3.scaleLinear()
                             .range(["rgb(100,200,0,0.5)", "	rgb(150,0,0,0.5)"])
                             .domain([0, 5])
 
-    let [timer, setTimer] = useState(null)
-
+    //sets mounted state to signal ready for Globe rendering
     useEffect(() => {
         setMounted(true)
-    })
+    }, [])
 
-
+    //return a D3 path generation function that accepts a geoJSON object and returns a path "d" attribute
+    //pathType specifies the type of map projection D3 will run. It is dependent on a redux-state of mapType
+    //scalePercent is used for rendering the event circles "flaoting" above the globe. A hight scale percent will move the circles further away from the globe.
     function getPath(pathType, scalePercent = 0){
         let canvasHolder = document.querySelector(".canvas")
         let translateArr = [0, 0]
@@ -83,6 +86,10 @@ function Globe(props) {
         return path
     }
     
+    //processes the features from the imported topojson file using topojson-clients "feature" function
+    //gets the path, then maps the features to path elements using the returned path function
+    //adds a circle with the final unshift
+    //can be optimized, paths must be generated here for animation, but features can be processed on App load up one time and saved to redux state.
     function genGeography(){
         if(mounted){
 
@@ -98,10 +105,13 @@ function Globe(props) {
         }
     }
 
+    //sets selected quake to be shown in QuakeDetails
     function handleFeatureClick(evt, quake){
         props.setSelected(quake)
     }
 
+    //gets features from redux state and passes them into the generated path function
+    //generates circles and their shadows at different scale percents, then returns the array of paths
     function genDatapoints(){
         if(mounted){
             if(props.features){

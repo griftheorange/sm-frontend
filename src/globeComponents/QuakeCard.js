@@ -6,6 +6,8 @@ import { Card } from 'semantic-ui-react'
 import { connect } from 'react-redux';
 
 function QuakeCard(props) {
+
+    //sets D3 color scale for border color
     const linearColor = d3.scaleLinear()
                             .range(["rgb(100,200,0,0.5)", "	rgb(150,0,0,0.5)"])
                             .domain([0, 5])
@@ -30,6 +32,7 @@ function QuakeCard(props) {
         return `${hour}:${date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()}:${date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds()}${am ? 'AM' : 'PM'} - EST`
     }
 
+    //translates magnitude value to format that semantic-ui accepts for card colors
     function getColor(mag){
         if (mag <= 3){
             return 'green'
@@ -44,6 +47,7 @@ function QuakeCard(props) {
         props.setSelected(quake)
     }
 
+    
     let date = new Date(props.quake.properties.time)
     return (
         <Card onClick={(evt)=>{handleClick(evt, props.quake)}} fluid color={getColor(props.quake.properties.mag)} style={{fontSize: "0.8em", textAlign: "left"}}>

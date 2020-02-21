@@ -9,8 +9,11 @@ function QuakeDetails(props) {
         return (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1)+'/'+(date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())+'/'+date.getFullYear()
     }
 
+    //Saves a list of all logged in user's bookmarks to reference when loaded
+    //Allows detail card to display whether or not a user has bookmarked this event, and render buttons appropriately
     let [usersBookmarks, setUsersBookmarks] = useState([])
 
+    //authorizes user token
     useEffect(() => {
         if(props.loggedIn){
             fetch(`http://${props.domain}/users/${props.loggedIn.user_id}`, {
@@ -63,6 +66,7 @@ function QuakeDetails(props) {
         props.history.push(`/event/${props.quake.id}`)
     }
 
+    //depending on whether the target quake is found in user bookmarks, renders different buttons with different funcitonalities 
     function getBookmarkButton(){
         if(props.loggedIn && usersBookmarks){
             let bookmark_db_ids = usersBookmarks.map((bookmark) => {
@@ -79,6 +83,18 @@ function QuakeDetails(props) {
         }
     }
 
+    //translates mag to color that semantic-ui accepts
+    function getColor(mag){
+        if (mag <= 3){
+            return 'green'
+        } else if (mag < 5){
+            return 'yellow'
+        } else {
+            return 'red'
+        }
+    }
+
+    //adds or deletes bookmark from database and correspondingly updates local state array of users bookmarks
     function handleBookmarking(){
         let bookmark_db_ids = usersBookmarks.map((bookmark) => {
             return bookmark.quake_id
@@ -122,6 +138,7 @@ function QuakeDetails(props) {
         }
     }
 
+    //facilitates removal of deleted bookmark from usersBookmarks state
     function removeBookmarkFromState(id){
         let foundIndex
         usersBookmarks.forEach((bookmark, i) => {
@@ -175,16 +192,6 @@ function QuakeDetails(props) {
     }
     else {
         return null
-    }
-}
-
-function getColor(mag){
-    if (mag <= 3){
-        return 'green'
-    } else if (mag < 5){
-        return 'yellow'
-    } else {
-        return 'red'
     }
 }
 

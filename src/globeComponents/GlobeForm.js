@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 function GlobeForm(props) {
 
+    //changes to form update redux state as controlled forms would
     function handleRotChange(evt){
         let rot
         switch(evt.target.name){
@@ -33,6 +34,7 @@ function GlobeForm(props) {
         }
     }
 
+    //same as rotation, but updates speed values
     function handleRotSpeedChange(evt){
         let rot
         switch(evt.target.name){
@@ -56,11 +58,13 @@ function GlobeForm(props) {
         }
     }
 
+    //randomizer generator for randomizing map properties with "Mix Things Up" button
     function getRand(max){
         let sign = Math.random() < 0.5 ? -1 : 1
         return Math.floor(Math.random() * max+1) * sign
     }
 
+    //randomizes the redux states of mapType and rotationSpeed
     function randomizer(){
         let arr = ["orthographic", "mercator", "azumithal equidistant", "conic conformal", "conic equidistant", "stereographic", "gnomic"]
         let arrLength = arr.length
@@ -68,6 +72,7 @@ function GlobeForm(props) {
         props.setRotationSpeed([getRand(100), getRand(100), getRand(100)])
     }
 
+    //returns map to default rotation states, speeds 
     function defaultRotation(){
         props.setRotationSpeed([10, 0, 0])
         if(props.mapType == "orthographic"){
