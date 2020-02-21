@@ -21,6 +21,8 @@ After installing, running "yarn build" will create an optimized, minified versio
 
 Some functions may not work if you aren't running your backend on localhost:3000. If your backend is running on a different port, go to the reducer file at "/reducers/reducer.js". At the top of the file their should be an initialState variable that handles all the load-up defaults for the application. At the very top is a "domain" key set to "localhost:3000". Change the value to whatever domain your backend is being hosted on.
 
+This project also implements and expands on another repo of mine topojson-test, where I first build out and tested the settup of the Globe component with D3 and React.
+
 ## Components
 
 This segment will be a brief rundown of the major components and some of their responsibilities. An extensive component tree for this app is displayed below:
