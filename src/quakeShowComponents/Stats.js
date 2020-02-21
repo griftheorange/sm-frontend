@@ -17,6 +17,7 @@ function Stats(props) {
 
     const quakeClasses = ["Minor", "Light", "Moderate", "Strong", "Major", "Great"]
 
+    //gets the quake class based on magnitude from the quakeClasses Array
     function getClass(mag){
         if(mag < 3){
             return "N/A"
@@ -35,6 +36,7 @@ function Stats(props) {
         }
     }
 
+    //gets the quake effect based on magnitude from the effectCollection array
     function getEffect(mag){
         if(mag <= 2.5){
             return `Mag ${mag}, ${effectCollection[0]}`
@@ -51,6 +53,7 @@ function Stats(props) {
         }
     }
 
+    //gets the estimated number of occurrences per year by mangitude from the estimatedPerYear array
     function getOccurrences(mag){
         if(mag <= 2.5){
             return `${estimatedPerYear[0]}`
